@@ -58,7 +58,7 @@
     if (ad.revenue > 0) {
         BDMPriceFloor *priceFloor = BDMPriceFloor.new;
         priceFloor.ID = @"applovin_max";
-        priceFloor.value = [[NSDecimalNumber alloc] initWithDouble:ad.revenue];
+        priceFloor.value = [[NSDecimalNumber alloc] initWithDouble:ad.revenue * 1000];
         self.request.priceFloors = @[priceFloor];
     }
     

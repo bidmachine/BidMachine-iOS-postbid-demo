@@ -8,7 +8,7 @@
 
 #define UNIT_ID         "ANY"
 
-@interface Rewarded ()<BDMRequestDelegate, BDMRewardedDelegate, MARewardedAdDelegate, MAAdRevenueDelegate>
+@interface Rewarded ()<BDMRequestDelegate, BDMRewardedDelegate, MARewardedAdDelegate>
 
 @property (nonatomic, strong) MARewardedAd *applovinRewardedAd;
 @property (nonatomic, strong) BDMRewardedRequest *request;
@@ -42,7 +42,6 @@
     if (!_applovinRewardedAd) {
         _applovinRewardedAd = [MARewardedAd sharedWithAdUnitIdentifier: @UNIT_ID];
         _applovinRewardedAd.delegate = self;
-        _applovinRewardedAd.revenueDelegate = self;
     }
     return _applovinRewardedAd;
 }
@@ -149,12 +148,6 @@
 }
 
 - (void)didRewardUserForAd:(MAAd *)ad withReward:(MAReward *)reward {
-    
-}
-
-#pragma mark - MAAdRevenueDelegate
-
-- (void)didPayRevenueForAd:(MAAd *)ad {
     
 }
 

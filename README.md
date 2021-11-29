@@ -46,3 +46,4 @@ Applovin MAX, therefore the you will gain more revenue from that.
 
 * [Interstitial](BidMachineSample/Interstitial.m)
 * [Rewarded](BidMachineSample/Rewarded.m)
+* [Banner](BidMachineSample/Banner.m)

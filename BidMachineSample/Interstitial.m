@@ -8,7 +8,7 @@
 
 #define UNIT_ID         "ANY"
 
-@interface Interstitial ()<BDMRequestDelegate, BDMInterstitialDelegate, MAAdDelegate, MAAdRevenueDelegate>
+@interface Interstitial ()<BDMRequestDelegate, BDMInterstitialDelegate, MAAdDelegate>
 
 @property (nonatomic, strong) MAInterstitialAd *applovinInterstitial;
 @property (nonatomic, strong) BDMInterstitialRequest *request;
@@ -42,7 +42,6 @@
     if (!_applovinInterstitial) {
         _applovinInterstitial = [[MAInterstitialAd alloc] initWithAdUnitIdentifier: @UNIT_ID];
         _applovinInterstitial.delegate = self;
-        _applovinInterstitial.revenueDelegate = self;
     }
     return _applovinInterstitial;
 }
@@ -133,12 +132,6 @@
 }
 
 - (void)didClickAd:(MAAd *)ad {
-    
-}
-
-#pragma mark - MAAdRevenueDelegate
-
-- (void)didPayRevenueForAd:(MAAd *)ad {
     
 }
 

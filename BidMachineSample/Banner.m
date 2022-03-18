@@ -47,6 +47,7 @@
 - (MAAdView *)applovinBanner {
     if (!_applovinBanner) {
         _applovinBanner = [[MAAdView alloc] initWithAdUnitIdentifier: @UNIT_ID];
+        _applovinBanner.frame = CGRectMake(0, 0, 320, 50);
         _applovinBanner.delegate = self;
     }
     return _applovinBanner;

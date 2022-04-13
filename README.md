@@ -1,4 +1,4 @@
-# BidMachine-IOS-Applovin-MAX-demo
+# BidMachine-iOS-postbid-demo
 
 [<img src="https://img.shields.io/badge/SDK%20Version-1.8.0-brightgreen">](https://github.com/bidmachine/BidMachine-iOS-SDK)
 [<img src="https://img.shields.io/badge/Applovin%20MAX%20Version-10.3.7-blue">](https://dash.applovin.com/documentation/mediation/ios/getting-started/integration)

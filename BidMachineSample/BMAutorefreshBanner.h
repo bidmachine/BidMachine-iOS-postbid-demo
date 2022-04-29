@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)loadAd;
 
+- (void)hideAd;
+
 - (BOOL)isLoaded;
 
 @end

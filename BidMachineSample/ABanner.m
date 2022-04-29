@@ -19,11 +19,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self switchState:BSStateLoading];
     
-    [self.autorefreshBanner loadAd];
     self.autorefreshBanner.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.autorefreshBanner loadAd];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.autorefreshBanner hideAd];
 }
 
 #pragma mark - BMAutorefreshBannerDelegate

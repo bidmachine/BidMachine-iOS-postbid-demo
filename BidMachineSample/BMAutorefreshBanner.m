@@ -71,6 +71,15 @@
 - (void)loadAd {
     if (!self.adOnScreen && !self.cachedBanner) {
         [self cacheBanner];
+    } else if (!self.adOnScreen) {
+        [self presentBanner];
+    }
+}
+
+- (void)hideAd {
+    if (self.adOnScreen) {
+        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        self.adOnScreen = NO;
     }
 }
 

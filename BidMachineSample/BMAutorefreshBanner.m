@@ -107,13 +107,11 @@
     }
     
     if (self.isLoaded) {
-        [UIView animateWithDuration:0.3f animations:^{
-            [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            self.banner = self.cachedBanner;
-            [self.banner.banner stk_edgesEqual:self];
-            [self cacheBanner];
-            [self refreshBannerIfNeeded];
-        }];
+        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        self.banner = self.cachedBanner;
+        [self.banner.banner stk_edgesEqual:self];
+        [self cacheBanner];
+        [self refreshBannerIfNeeded];
     }
 }
 

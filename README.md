@@ -1,7 +1,7 @@
 # BidMachine-iOS-postbid-demo
 
-[<img src="https://img.shields.io/badge/SDK%20Version-1.8.0-brightgreen">](https://github.com/bidmachine/BidMachine-iOS-SDK)
-[<img src="https://img.shields.io/badge/Applovin%20MAX%20Version-10.3.7-blue">](https://dash.applovin.com/documentation/mediation/ios/getting-started/integration)
+[<img src="https://img.shields.io/badge/SDK%20Version-1.9.2-brightgreen">](https://github.com/bidmachine/BidMachine-iOS-SDK)
+[<img src="https://img.shields.io/badge/Applovin%20MAX%20Version-11.3.3-blue">](https://dash.applovin.com/documentation/mediation/ios/getting-started/integration)
 
 * [Overview](#overview)
 * [Loading Applovin MAX](#loading-applovin-max)
@@ -15,7 +15,7 @@ Showing an ad object is performed in 3 stages:
 
 1) Loading Applovin MAX
 2) Loading BidMachine based on Applovin MAX result
-3) Showing the loaded ad object
+3) Showing the max price loaded ad object
 
 ## Loading Applovin MAX
 
@@ -42,8 +42,23 @@ After the loading stage, you should give preference to the BidMachine ad object 
 ad, since it was requested with a price floor that is higher than the price of the loaded ad from
 Applovin MAX, therefore the you will gain more revenue from that.
 
+## Autorefresh Banner
+
+The autorefresh banner is presented in the demo using the [BMAutorefreshBanner](BidMachineSample/BMAutorefreshBanner.m) class.
+With it, you can show a banner with a frequency of 15 seconds.
+The customizable banner uses post-bid mediation to maximize profits.
+
+The choice of the maximum price occurs between all loaded advertising objects. [Example](BidMachineSample/BMBannerPostbidController.m#L72)
+
+``` objc
+    BMMediationBanner *winner = [mediationBanners bm_maxPriceBanner:^BMMediationBanner *(BMMediationBanner *prev, BMMediationBanner *next) {
+        return next.ECPM >= prev.ECPM ? next : prev;
+    }];
+```
+
 ## Sample
 
 * [Interstitial](BidMachineSample/Interstitial.m)
 * [Rewarded](BidMachineSample/Rewarded.m)
 * [Banner](BidMachineSample/Banner.m)
+* [AutorefreshBanner](BidMachineSample/ABanner.m)

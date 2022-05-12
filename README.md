@@ -62,12 +62,11 @@ In the prebid block, you need to get the price of the loaded ad object from the 
 
 Each loaded BidMachine object contains price information - Example:
 
-``` objc
+``` swift
 
-- (void)getPrice {
-    return self.interstitial.auctionInfo.price
+func getPrice(from ad: BDMInterstitial) -> Double {
+    return ad.auctionInfo.price
 }
-
 
 ```
 
@@ -75,9 +74,9 @@ Each loaded BidMachine object contains price information - Example:
 
 Each loaded MAX object contains price information - Example:
 
-``` objc
+``` swift
 
-- (void)getPriceFromAd:(MAAd *)ad {
+func getPrice(from ad: MAAd) -> Double {
     return ad.revenue * 1000
 }
 
@@ -109,6 +108,55 @@ The result of the postbid block can be seen in the console
 |            |                                                                                                            | [AdMobInterstitialAdapter](BidMachineMediationAdapters/AdMobMediationAdapter/AdMobInterstitialAdapter.swift)                |
 |            |                                                                                                            | [AdMobRewardedAdapter](BidMachineMediationAdapters/AdMobMediationAdapter/AdMobRewardedAdapter.swift)                        |
 
+
+#### Adapter Features
+
+In the postbid block you must request an ad for each adapter with a preset price
+
+##### BidMachine
+
+To download BidMachine with a preset price, you need to send price floors to the request - Example:
+
+``` swift
+
+    func load(_ price: Double) {
+        let request = BDMInterstitialRequest()
+        if price > 0 {
+            request.priceFloors = [price].compactMap {
+                let floor = BDMPriceFloor()
+                floor.id = "mediation_price"
+                floor.value = NSDecimalNumber(value: $0)
+                return floor
+            }
+        }
+    
+        interstitial.populate(with: request)
+    }
+
+```
+
+##### AdMob 
+
+To download AdMob, you need to choose the right adUnitId for the price and make a request with it - Example:
+
+``` swift
+
+    /**
+     * Finds the first [LineItem] whose price is equal to or greater than the price floor and loads it.
+     * Each ad unit is configured in the [AdMob dashboard](https://apps.admob.com).
+     */
+    func load(_ price: Double) {
+        guard let lineItem = Constants.lineItems.lineItemWithPrice(price) else {
+            self.loadingDelegate.flatMap { $0.failLoad(self, MediationError.noContent("Can't find AdMob line item"))}
+            return
+        }
+        
+        
+        let request = GADRequest()
+        GADInterstitialAd.load(withAdUnitID: lineItem.unitId, request: request) { }
+    }
+
+```
 
 ## Mediation Block
 

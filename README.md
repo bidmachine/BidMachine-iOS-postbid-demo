@@ -9,9 +9,9 @@
 
 * [Overview](#post-bid-overview)
 * [PreBid Block](#prebid-block)
-    + [Mediated Ad Networks](prebid-mediated-ad-networks:)
+    + [Mediated Ad Networks](prebid-mediated-ad-networks)
 * [PostBid block](#postbid-block)
-    + [Mediated Ad Networks](postbid-mediated-ad-networks:)
+    + [Mediated Ad Networks](postbid-mediated-ad-networks)
 * [Showing the loaded ad object](#showing-the-loaded-ad-object)
     + [Banner](#banner)
     + [AutorefreshBanner](#autorefresh-banner)

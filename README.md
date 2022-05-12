@@ -108,8 +108,222 @@ The result of the mediation block can be seen in the console
 
 #### Banner
 
+``` objc
+@interface Banner ()<BMMBannerDelegate>
+
+@property (weak, nonatomic) IBOutlet BMMBanner *banner;
+
+@end
+
+@implementation Banner
+
+- (void)loadBanner {
+    self.banner.delegate = self;
+    self.banner.controller = self;
+    [self.banner loadAd]
+}
+
+#pragma mark - BMMBannerDelegate
+
+- (void)bannerDidLoadAd:(BMMBanner * _Nonnull)ad {
+    
+}
+
+- (void)bannerFailToLoadAd:(BMMBanner * _Nonnull)ad with:(NSError * _Nonnull)error {
+    
+}
+
+- (void)bannerFailToPresentAd:(BMMBanner * _Nonnull)ad with:(NSError * _Nonnull)error {
+  
+}
+
+- (void)bannerWillPresentScreenAd:(BMMBanner * _Nonnull)ad {
+    
+}
+
+- (void)bannerDidDismissScreenAd:(BMMBanner * _Nonnull)ad {
+    
+}
+
+- (void)bannerDidTrackImpression:(BMMBanner * _Nonnull)ad {
+    
+}
+
+- (void)bannerRecieveUserAction:(BMMBanner * _Nonnull)ad {
+    
+}
+
+@end
+
+```
+
 #### Autorefresh Banner
+
+``` objc
+@interface ABanner () <BMMAutorefreshBannerDelegate>
+
+@property (weak, nonatomic) IBOutlet BMMAutorefreshBanner *autorefreshBanner;
+
+@end
+
+@implementation ABanner
+
+- (void)loadBanner {
+    self.autorefreshBanner.delegate = self;
+    self.autorefreshBanner.controller = self;
+    [self.autorefreshBanner loadAd];
+}
+
+- (void)hideBanner {
+    [self.autorefreshBanner hideAd];
+}
+
+#pragma mark - BMMAutorefreshBannerDelegate
+
+- (void)autorefreshBannerDidDismissScreenAd:(BMMAutorefreshBanner * _Nonnull)ad {
+    
+}
+
+- (void)autorefreshBannerDidLoadAd:(BMMAutorefreshBanner * _Nonnull)ad {
+    
+}
+
+- (void)autorefreshBannerDidTrackImpression:(BMMAutorefreshBanner * _Nonnull)ad {
+    
+}
+
+- (void)autorefreshBannerFailToLoadAd:(BMMAutorefreshBanner * _Nonnull)ad with:(NSError * _Nonnull)error {
+    
+}
+
+- (void)autorefreshBannerFailToPresentAd:(BMMAutorefreshBanner * _Nonnull)ad with:(NSError * _Nonnull)error {
+    
+}
+
+- (void)autorefreshBannerRecieveUserAction:(BMMAutorefreshBanner * _Nonnull)ad {
+    
+}
+
+- (void)autorefreshBannerWillPresentScreenAd:(BMMAutorefreshBanner * _Nonnull)ad {
+    
+}
+
+@end
+
+```
 
 #### Interstitial
 
+``` objc
+@interface Interstitial ()<BMMInterstitialDelegate>
+
+@property (nonatomic, strong) BMMInterstitial *intestitial;
+
+@end
+
+@implementation Interstitial
+
+- (void)loadInterstitial {
+    self.intestitial = BMMInterstitial.new;
+    self.intestitial.delegate = self;
+    [self.intestitial loadAd];
+}
+
+- (void)showInterstitial {
+    [self.intestitial presentFrom:self];
+}
+
+#pragma mark - BMMInterstitialDelegate
+
+- (void)interstitialDidLoadAd:(BMMInterstitial *)ad {
+    
+}
+
+- (void)interstitialFailToLoadAd:(BMMInterstitial *)ad with:(NSError *)error {
+    
+}
+
+- (void)interstitialFailToPresentAd:(BMMInterstitial * _Nonnull)ad with:(NSError * _Nonnull)error {
+
+}
+
+- (void)interstitialWillPresentAd:(BMMInterstitial * _Nonnull)ad {
+    
+}
+
+- (void)interstitialDidDismissAd:(BMMInterstitial * _Nonnull)ad {
+    
+}
+
+- (void)interstitialDidTrackImpression:(BMMInterstitial * _Nonnull)ad {
+    
+}
+
+- (void)interstitialRecieveUserAction:(BMMInterstitial * _Nonnull)ad {
+    
+}
+
+@end
+
+```
+
 #### Rewarded
+
+``` objc
+@interface Rewarded ()<BMMRewardedDelegate>
+
+@property (nonatomic, strong) BMMRewarded *rewarded;
+
+@end
+
+@implementation Rewarded
+
+- (void)loadRewarded {
+    self.rewarded = BMMRewarded.new;
+    self.rewarded.delegate = self;
+    [self.rewarded loadAd];
+}
+
+- (void)showRewarded {
+    [self.rewarded presentFrom:self];
+}
+
+#pragma mark - BMMRewardedDelegate
+
+- (void)rewardedDidLoadAd:(BMMRewarded *)ad {
+    
+}
+
+- (void)rewardedFailToLoadAd:(BMMRewarded *)ad with:(NSError *)error {
+    
+}
+
+- (void)rewardedFailToPresentAd:(BMMRewarded * _Nonnull)ad with:(NSError * _Nonnull)error {
+    
+}
+
+- (void)rewardedWillPresentAd:(BMMRewarded * _Nonnull)ad {
+    
+}
+
+- (void)rewardedDidDismissAd:(BMMRewarded * _Nonnull)ad {
+    
+}
+
+- (void)rewardedDidTrackImpression:(BMMRewarded * _Nonnull)ad {
+    
+}
+
+
+- (void)rewardedDidTrackReward:(BMMRewarded * _Nonnull)ad {
+    
+}
+
+- (void)rewardedRecieveUserAction:(BMMRewarded * _Nonnull)ad {
+    
+}
+
+
+@end
+
+```

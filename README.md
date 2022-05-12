@@ -26,12 +26,24 @@ The operation of each block is described below.
 
 ## PreBid Block
 
+The prebid block makes requests to ad networks through their adapters. Ad networks are loaded in parallel. At the end of the download of all ad networks, we will have an intermediate result of downloading ad
+
+The result of the prebid block can be seen in the console
+
+``` objc
+    [BidMachineMediation] ----- Start Prebid Block
+    [BidMachineMediation] ------- Mediated Adapters: ["< Bidmachine : 0.0 >", "< Applovin_Max : 0.0 >"]
+    [BidMachineMediation] ------- Mediated Price: 0.0
+    [BidMachineMediation] ------------ Loaded Adapters: ["< Applovin_Max : 0.0 >", "< Bidmachine : 1.74545 >"]
+    [BidMachineMediation] ----- Complete Prebid Block
+```
+
 | Ad Network  | Adapter                                                                                                   | Type Class                                                                                                                  |
 |-------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
 | BidMachine  | [BidMachinePreBidNetwork](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineNetwork.swift) | [BidMachineBannerAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineBannerAdapter.swift)             |
 |             |                                                                                                           | [BidMachineInterstitialAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineInterstitialAdapter.swift) |
 |             |                                                                                                           | [BidMachineRewardedAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineRewardedAdapter.swift)         |
-| ApplovinMAX | [ApplovinPreBidNetwork](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinPreBidNetwork.swift) | [ApplovinBannerAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinBannerAdapter.swift)                   |
+| ApplovinMAX | [ApplovinPreBidNetwork](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinNetwork.swift) | [ApplovinBannerAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinBannerAdapter.swift)                   |
 |             |                                                                                                           | [ApplovinInterstitialAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinInterstitialAdapter.swift)       |
 |             |                                                                                                           | [ApplovinRewardedAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinRewardedAdapter.swift)               |
 

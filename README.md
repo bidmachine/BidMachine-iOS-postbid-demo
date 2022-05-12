@@ -74,6 +74,32 @@ The result of the postbid block can be seen in the console
 |            |                                                                                                            | [AdMobInterstitialAdapter](BidMachineMediationAdapters/AdMobMediationAdapter/AdMobInterstitialAdapter.swift)                |
 |            |                                                                                                            | [AdMobRewardedAdapter](BidMachineMediationAdapters/AdMobMediationAdapter/AdMobRewardedAdapter.swift)                        |
 
+
+## Mediation Block
+
+Mediation block finds the maximum loaded ad from those that have filled in prebid and postbid blocks and returns it to the final adObject
+
+Comparison is based on the price of downloaded ad
+
+``` swift
+extension Array where Element == MediationAdapter {
+    
+    func maxPriceAdaptor() -> Element? {
+        return self.sorted { $0.price >= $1.price }.first
+    }
+}
+```
+
+The result of the mediation block can be seen in the console
+
+``` objc
+----- Start Mediation Block
+------------ Loaded Adapters: ["< Applovin_Max : 0.0 >", "< Bidmachine : 1.74545 >", "< Bidmachine : 1.752814 >", "< Googlemobileads : 2.0 >"]
+------------ 🔥🥳 Max Price Adapter 🥳🔥: < Googlemobileads : 2.0 > 🎉🎉🎉
+----- Complete Mediation Block
+```
+
+
 ## Loading Applovin MAX
 
 How to load the Applovin MAX ad object,

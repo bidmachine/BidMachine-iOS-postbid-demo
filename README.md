@@ -38,7 +38,7 @@ The result of the prebid block can be seen in the console
 ----- Complete Prebid Block
 ```
 
-### PreBid Mediated Ad Networks:
+#### PreBid Mediated Ad Networks:
 
 | Ad Network  | Adapter                                                                                                   | Type Class                                                                                                                  |
 |-------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|

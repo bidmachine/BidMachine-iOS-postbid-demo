@@ -18,7 +18,7 @@
 Showing an ad object is performed in 4 stages:
 
 1) [PreBid block](#prebid-block) - Loading ad objects
-2) PostBid block - Loading  ad objects based on Prebid block max price result
+2) [PostBid block](#postbid-block) - Loading  ad objects based on Prebid block max price result
 3) Mediation block - The choice of the maximum price occurs between all loaded advertising objects
 4) Showing the max price loaded ad object
 
@@ -48,6 +48,31 @@ The result of the prebid block can be seen in the console
 | ApplovinMAX | [ApplovinPreBidNetwork](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinNetwork.swift) | [ApplovinBannerAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinBannerAdapter.swift)                   |
 |             |                                                                                                           | [ApplovinInterstitialAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinInterstitialAdapter.swift)       |
 |             |                                                                                                           | [ApplovinRewardedAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinRewardedAdapter.swift)               |
+
+## PostBid Block
+
+The postbid block makes requests to ad networks through their adapters. Ad networks are loaded in parallel. The postbid block uses the maximum price of the completed ad objects from the prebid block. Postbid adapters use this price to download ads with a higher bid.
+
+The result of the postbid block can be seen in the console
+
+``` objc
+----- Start Postbid Block
+------- Mediated Adapters: ["< Bidmachine : 0.0 >", "< Googlemobileads : 0.0 >"]
+------- Mediated Price: 1.74545
+------------ Loaded Adapters: ["< Bidmachine : 1.752814 >", "< Googlemobileads : 2.0 >"]
+----- Complete Postbid Block
+```
+
+#### PostBid Mediated Ad Networks:
+
+| Ad Network | Adapter                                                                                                    | Type Class                                                                                                                  |
+|------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| BidMachine | [BidMachinePostBidNetwork](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineNetwork.swift) | [BidMachineBannerAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineBannerAdapter.swift)             |
+|            |                                                                                                            | [BidMachineInterstitialAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineInterstitialAdapter.swift) |
+|            |                                                                                                            | [BidMachineRewardedAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineRewardedAdapter.swift)         |
+| AdMob      | [AdMobPostBidNetwork](BidMachineMediationAdapters/AdMobMediationAdapter/AdMobNetwork.swift)                | [AdMobBannerAdapter](BidMachineMediationAdapters/AdMobMediationAdapter/AdMobBannerAdapter.swift)                            |
+|            |                                                                                                            | [AdMobInterstitialAdapter](BidMachineMediationAdapters/AdMobMediationAdapter/AdMobInterstitialAdapter.swift)                |
+|            |                                                                                                            | [AdMobRewardedAdapter](BidMachineMediationAdapters/AdMobMediationAdapter/AdMobRewardedAdapter.swift)                        |
 
 ## Loading Applovin MAX
 

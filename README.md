@@ -7,11 +7,14 @@
 [<img src="https://img.shields.io/badge/Applovin%20MAX%20Version-11.3.3-blue">](https://dash.applovin.com/documentation/mediation/ios/getting-started/integration)
 [<img src="https://img.shields.io/badge/AdMob%20Version-9.4.0-blue">](https://developers.google.com/admob/ios/quick-start)
 
-* [Overview](#overview)
-* [Loading Applovin MAX](#loading-applovin-max)
-* [Loading BidMachine based on Applovin MAX result](#loading-bidmachine-based-on-applovin-max-result)
+* [Overview](#post-bid-overview)
+* [PreBid Block](#prebid-block)
+* [PostBid block](#postbid-block)
 * [Showing the loaded ad object](#showing-the-loaded-ad-object)
-* [Sample](#sample)
+      + [Banner](#banner)
+      + [AutorefreshBanner](#autorefresh-banner)
+      + [Interstitial](#interstitial)
+      + [Rewarded](#rewarded)
 
 ## Post Bid Overview
 
@@ -19,8 +22,8 @@ Showing an ad object is performed in 4 stages:
 
 1) [PreBid block](#prebid-block) - Loading ad objects
 2) [PostBid block](#postbid-block) - Loading  ad objects based on Prebid block max price result
-3) Mediation block - The choice of the maximum price occurs between all loaded advertising objects
-4) Showing the max price loaded ad object
+3) [Mediation block](#mediation-blick) - The choice of the maximum price occurs between all loaded advertising objects
+4) [Showing the max price loaded ad object](#showing-the-loaded-ad-object)
 
 The operation of each block is described below.
 
@@ -99,6 +102,15 @@ The result of the mediation block can be seen in the console
 ----- Complete Mediation Block
 ```
 
+## Showing the loaded ad object
+
+#### Banner
+
+#### Autorefresh Banner
+
+#### Interstitial
+
+#### Rewarded
 
 ## Loading Applovin MAX
 

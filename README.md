@@ -54,6 +54,36 @@ The result of the prebid block can be seen in the console
 |             |                                                                                                           | [ApplovinInterstitialAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinInterstitialAdapter.swift)       |
 |             |                                                                                                           | [ApplovinRewardedAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinRewardedAdapter.swift)               |
 
+#### Adapter Features
+
+In the prebid block, you need to get the price of the loaded ad object from the adapters
+
+##### BidMachine
+
+Each loaded BidMachine object contains price information - Example:
+
+``` objc
+
+- (void)getPrice {
+    return self.interstitial.auctionInfo.price
+}
+
+
+```
+
+##### ApplovinMax 
+
+Each loaded MAX object contains price information - Example:
+
+``` objc
+
+- (void)getPriceFromAd:(MAAd *)ad {
+    return ad.revenue * 1000
+}
+
+
+```
+
 ## PostBid Block
 
 The postbid block makes requests to ad networks through their adapters. Ad networks are loaded in parallel. The postbid block uses the maximum price of the completed ad objects from the prebid block. Postbid adapters use this price to download ads with a higher bid.

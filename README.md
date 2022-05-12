@@ -43,7 +43,7 @@ The result of the prebid block can be seen in the console
 ----- Complete Prebid Block
 ```
 
-#### PreBid Mediated Ad Networks:
+#### PreBid Mediated Ad Networks
 
 | Ad Network  | Adapter                                                                                                   | Type Class                                                                                                                  |
 |-------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
@@ -68,7 +68,7 @@ The result of the postbid block can be seen in the console
 ----- Complete Postbid Block
 ```
 
-#### PostBid Mediated Ad Networks:
+#### PostBid Mediated Ad Networks
 
 | Ad Network | Adapter                                                                                                    | Type Class                                                                                                                  |
 |------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|

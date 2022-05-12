@@ -11,7 +11,7 @@
 * [PreBid Block](#prebid-block)
 * [PostBid block](#postbid-block)
 * [Showing the loaded ad object](#showing-the-loaded-ad-object)
-      + [Banner](#banner)
+    * [Banner](#banner)
       + [AutorefreshBanner](#autorefresh-banner)
       + [Interstitial](#interstitial)
       + [Rewarded](#rewarded)

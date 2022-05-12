@@ -31,11 +31,11 @@ The prebid block makes requests to ad networks through their adapters. Ad networ
 The result of the prebid block can be seen in the console
 
 ``` objc
-    [BidMachineMediation] ----- Start Prebid Block
-    [BidMachineMediation] ------- Mediated Adapters: ["< Bidmachine : 0.0 >", "< Applovin_Max : 0.0 >"]
-    [BidMachineMediation] ------- Mediated Price: 0.0
-    [BidMachineMediation] ------------ Loaded Adapters: ["< Applovin_Max : 0.0 >", "< Bidmachine : 1.74545 >"]
-    [BidMachineMediation] ----- Complete Prebid Block
+----- Start Prebid Block
+------- Mediated Adapters: ["< Bidmachine : 0.0 >", "< Applovin_Max : 0.0 >"]
+------- Mediated Price: 0.0
+------------ Loaded Adapters: ["< Applovin_Max : 0.0 >", "< Bidmachine : 1.74545 >"]
+----- Complete Prebid Block
 ```
 
 | Ad Network  | Adapter                                                                                                   | Type Class                                                                                                                  |

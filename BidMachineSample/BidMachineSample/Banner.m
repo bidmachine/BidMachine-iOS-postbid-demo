@@ -24,13 +24,16 @@
 - (void)loadAd:(id)sender {
     [self switchState:BSStateLoading];
     
-    [self.banner loadAd];
+    [self.banner loadAd:^(id<BMMAdRequest> builder) {
+        [builder appendPriceFloor:0.1];
+        [builder appendAdUnit:@"BidMachine" : @{}];
+    }];
 }
 
 #pragma mark - BMMDisplayAdDelegate
 
 - (void)adDidLoad:(id<BMMDisplayAd> _Nonnull)ad {
-    [self switchState:BSStateReady];
+    [self switchState:BSStateIdle];
 }
 
 - (void)adFailToLoad:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {

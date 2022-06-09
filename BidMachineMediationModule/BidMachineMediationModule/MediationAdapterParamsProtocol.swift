@@ -17,5 +17,5 @@ public protocol MediationAdapterParamsProtocol {
     
     var container: UIView? { get set }
     
-//    init(_ params: MediationParams)
+    init(_ params: MediationParams)
 }

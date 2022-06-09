@@ -11,8 +11,11 @@ class PreBidOperation: AsyncOperation {
     
     private let wrapperController: MediationAdapterWrapperController
     
+    private var isPriceFloor: Bool = false
+    
     init(_ request: Request){
         if request.priceFloor > 0 {
+            isPriceFloor = true
             wrapperController = MediationAdapterWrapperController([])
         } else {
             let wrappers: [MediationAdapterWrapper] = request.adapterParams.compactMap { MediationAdapterWrapper($0, request, .prebid ) }
@@ -21,6 +24,10 @@ class PreBidOperation: AsyncOperation {
     }
     
     override func main() {
+        if isPriceFloor {
+            self.state = .finished
+            return
+        }
         Logging.log("----- Start prebid block")
         wrapperController.load(self)
     }

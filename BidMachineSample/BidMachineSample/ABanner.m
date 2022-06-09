@@ -8,7 +8,7 @@
 
 #import "ABanner.h"
 
-@interface ABanner () <BMMAutorefreshBannerDelegate>
+@interface ABanner () <BMMDisplayAdDelegate>
 
 @property (weak, nonatomic) IBOutlet BMMAutorefreshBanner *autorefreshBanner;
 
@@ -36,33 +36,39 @@
     [self.autorefreshBanner hideAd];
 }
 
-#pragma mark - BMMAutorefreshBannerDelegate
+#pragma mark - BMMDisplayAdDelegate
 
-- (void)autorefreshBannerDidDismissScreenAd:(BMMAutorefreshBanner * _Nonnull)ad {
+- (void)adDidLoad:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)autorefreshBannerDidLoadAd:(BMMAutorefreshBanner * _Nonnull)ad {
+- (void)adFailToLoad:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {
     
 }
 
-- (void)autorefreshBannerDidTrackImpression:(BMMAutorefreshBanner * _Nonnull)ad {
+- (void)adFailToPresent:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {
     
 }
 
-- (void)autorefreshBannerFailToLoadAd:(BMMAutorefreshBanner * _Nonnull)ad with:(NSError * _Nonnull)error {
+- (void)adWillPresentScreen:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)autorefreshBannerFailToPresentAd:(BMMAutorefreshBanner * _Nonnull)ad with:(NSError * _Nonnull)error {
+- (void)adDidDismissScreen:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)autorefreshBannerRecieveUserAction:(BMMAutorefreshBanner * _Nonnull)ad {
+- (void)adDidExpired:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)autorefreshBannerWillPresentScreenAd:(BMMAutorefreshBanner * _Nonnull)ad {
+
+- (void)adDidTrackImpression:(id<BMMDisplayAd> _Nonnull)ad {
+    
+}
+
+
+- (void)adRecieveUserAction:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 

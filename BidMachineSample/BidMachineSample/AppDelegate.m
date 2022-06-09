@@ -13,23 +13,19 @@
 #warning - Make sure to add your Google SDK key in the Info.plist under the "GADApplicationIdentifier" key
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [BMMNetworkRegistration.shared registerNetworks:@[
-                                                      @"BidMachineMediationAdapter.BidMachinePreBidNetwork",
-                                                      @"BidMachineMediationAdapter.BidMachinePostBidNetwork",
-                                                      @"ApplovinMediationAdapter.ApplovinPreBidNetwork",
-                                                      @"AdMobMediationAdapter.AdMobPostBidNetwork"]];
+    [BMMNetworkRegistration.shared registerNetwork:@"BidMachineMediationAdapter.BidMachineNework" : @{@"source_id" : @"5"}];
     
-     [self startBidMachine:^{
-         // Initialize the AppLovin SDK
-         [ALSdk shared].mediationProvider = ALMediationProviderMAX;
-         [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
-             
-         }];
-         
-         [GADMobileAds.sharedInstance startWithCompletionHandler:^(GADInitializationStatus * _Nonnull status) {
-             
-         }];
-     }];
+//     [self startBidMachine:^{
+//         // Initialize the AppLovin SDK
+//         [ALSdk shared].mediationProvider = ALMediationProviderMAX;
+//         [[ALSdk shared] initializeSdkWithCompletionHandler:^(ALSdkConfiguration *configuration) {
+//             
+//         }];
+//         
+//         [GADMobileAds.sharedInstance startWithCompletionHandler:^(GADInitializationStatus * _Nonnull status) {
+//             
+//         }];
+//     }];
     
     return YES;
 }

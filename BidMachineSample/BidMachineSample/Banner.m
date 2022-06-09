@@ -6,7 +6,7 @@
 
 #import "Banner.h"
 
-@interface Banner ()<BMMBannerDelegate>
+@interface Banner ()<BMMDisplayAdDelegate>
 
 @property (weak, nonatomic) IBOutlet BMMBanner *banner;
 
@@ -27,33 +27,39 @@
     [self.banner loadAd];
 }
 
-#pragma mark - BMMBannerDelegate
+#pragma mark - BMMDisplayAdDelegate
 
-- (void)bannerDidLoadAd:(BMMBanner * _Nonnull)ad {
+- (void)adDidLoad:(id<BMMDisplayAd> _Nonnull)ad {
+    [self switchState:BSStateReady];
+}
+
+- (void)adFailToLoad:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {
     [self switchState:BSStateIdle];
 }
 
-- (void)bannerFailToLoadAd:(BMMBanner * _Nonnull)ad with:(NSError * _Nonnull)error {
+- (void)adFailToPresent:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {
     [self switchState:BSStateIdle];
 }
 
-- (void)bannerFailToPresentAd:(BMMBanner * _Nonnull)ad with:(NSError * _Nonnull)error {
-    [self switchState:BSStateIdle];
-}
-
-- (void)bannerWillPresentScreenAd:(BMMBanner * _Nonnull)ad {
+- (void)adWillPresentScreen:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)bannerDidDismissScreenAd:(BMMBanner * _Nonnull)ad {
+- (void)adDidDismissScreen:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)bannerDidTrackImpression:(BMMBanner * _Nonnull)ad {
+- (void)adDidExpired:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)bannerRecieveUserAction:(BMMBanner * _Nonnull)ad {
+
+- (void)adDidTrackImpression:(id<BMMDisplayAd> _Nonnull)ad {
+    
+}
+
+
+- (void)adRecieveUserAction:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 

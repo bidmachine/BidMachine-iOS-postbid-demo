@@ -12,8 +12,6 @@
 		655463AB281C0E9900305D0A /* ABanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 655463AA281C0E9900305D0A /* ABanner.m */; };
 		65808F5F28298CFF007AB10C /* BidMachineMediationModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65808F5E28298CFF007AB10C /* BidMachineMediationModule.framework */; };
 		65808F7E282A449D007AB10C /* libBidMachineMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65808F7D282A449D007AB10C /* libBidMachineMediationAdapter.a */; };
-		65808F99282A8DEB007AB10C /* libApplovinMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65808F98282A8DEB007AB10C /* libApplovinMediationAdapter.a */; };
-		65808FC5282C2856007AB10C /* libAdMobMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65808FC4282C2856007AB10C /* libAdMobMediationAdapter.a */; };
 		659EB60723DB2710004F4550 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 659EB60623DB2710004F4550 /* AppDelegate.m */; };
 		659EB61023DB2710004F4550 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 659EB60E23DB2710004F4550 /* Main.storyboard */; };
 		659EB61223DB2713004F4550 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659EB61123DB2713004F4550 /* Assets.xcassets */; };
@@ -63,8 +61,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65808FC5282C2856007AB10C /* libAdMobMediationAdapter.a in Frameworks */,
-				65808F99282A8DEB007AB10C /* libApplovinMediationAdapter.a in Frameworks */,
 				65808F7E282A449D007AB10C /* libBidMachineMediationAdapter.a in Frameworks */,
 				65808F5F28298CFF007AB10C /* BidMachineMediationModule.framework in Frameworks */,
 				EBC0E3906BD26E4D82C7BB8B /* libPods-BidMachineSample.a in Frameworks */,

@@ -20,7 +20,7 @@ public protocol MediationNetworkProtocol: AnyObject {
     
     func adapter(_ type: MediationType, _ placement: MediationPlacement) -> U.Type?
     
-    func initializeNetwork(_ params: Self.T)
+    func initializeNetwork<P: MediationNetworkParamsProtocol>(_ params: P)
 }
 
 

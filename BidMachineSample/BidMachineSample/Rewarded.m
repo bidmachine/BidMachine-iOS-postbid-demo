@@ -6,7 +6,7 @@
 
 #import "Rewarded.h"
 
-@interface Rewarded ()<BMMRewardedDelegate>
+@interface Rewarded ()<BMMDisplayAdDelegate>
 
 @property (nonatomic, strong) BMMRewarded *rewarded;
 
@@ -18,48 +18,51 @@
     [self switchState:BSStateLoading];
     self.rewarded = BMMRewarded.new;
     self.rewarded.delegate = self;
+    self.rewarded.controller = self;
     [self.rewarded loadAd];
 }
 
 - (void)showAd:(id)sender {
     [self switchState:BSStateIdle];
-    [self.rewarded presentFrom:self];
+    [self.rewarded present:^{
+        
+    }];
 }
 
-#pragma mark - BMMRewardedDelegate
+#pragma mark - BMMDisplayAdDelegate
 
-- (void)rewardedDidLoadAd:(BMMRewarded *)ad {
+- (void)adDidLoad:(id<BMMDisplayAd> _Nonnull)ad {
     [self switchState:BSStateReady];
 }
 
-- (void)rewardedFailToLoadAd:(BMMRewarded *)ad with:(NSError *)error {
+- (void)adFailToLoad:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {
     [self switchState:BSStateIdle];
 }
 
-- (void)rewardedFailToPresentAd:(BMMRewarded * _Nonnull)ad with:(NSError * _Nonnull)error {
+- (void)adFailToPresent:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {
     
 }
 
-- (void)rewardedWillPresentAd:(BMMRewarded * _Nonnull)ad {
+- (void)adWillPresentScreen:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)rewardedDidDismissAd:(BMMRewarded * _Nonnull)ad {
+- (void)adDidDismissScreen:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)rewardedDidTrackImpression:(BMMRewarded * _Nonnull)ad {
+- (void)adDidExpired:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
 
-- (void)rewardedDidTrackReward:(BMMRewarded * _Nonnull)ad {
+- (void)adDidTrackImpression:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)rewardedRecieveUserAction:(BMMRewarded * _Nonnull)ad {
+
+- (void)adRecieveUserAction:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
-
 
 @end

@@ -6,7 +6,7 @@
 
 #import "Interstitial.h"
 
-@interface Interstitial ()<BMMInterstitialDelegate>
+@interface Interstitial ()<BMMDisplayAdDelegate>
 
 @property (nonatomic, strong) BMMInterstitial *intestitial;
 
@@ -18,42 +18,50 @@
     [self switchState:BSStateLoading];
     self.intestitial = BMMInterstitial.new;
     self.intestitial.delegate = self;
+    self.intestitial.controller = self;
     [self.intestitial loadAd];
 }
 
 - (void)showAd:(id)sender {
     [self switchState:BSStateIdle];
-    [self.intestitial presentFrom:self];
+    [self.intestitial present];
 }
 
-#pragma mark - BMMInterstitialDelegate
+#pragma mark - BMMDisplayAdDelegate
 
-- (void)interstitialDidLoadAd:(BMMInterstitial *)ad {
+- (void)adDidLoad:(id<BMMDisplayAd> _Nonnull)ad {
     [self switchState:BSStateReady];
 }
 
-- (void)interstitialFailToLoadAd:(BMMInterstitial *)ad with:(NSError *)error {
+- (void)adFailToLoad:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {
     [self switchState:BSStateIdle];
 }
 
-- (void)interstitialFailToPresentAd:(BMMInterstitial * _Nonnull)ad with:(NSError * _Nonnull)error {
-
-}
-
-- (void)interstitialWillPresentAd:(BMMInterstitial * _Nonnull)ad {
+- (void)adFailToPresent:(id<BMMDisplayAd> _Nonnull)ad with:(NSError * _Nonnull)error {
     
 }
 
-- (void)interstitialDidDismissAd:(BMMInterstitial * _Nonnull)ad {
+- (void)adWillPresentScreen:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)interstitialDidTrackImpression:(BMMInterstitial * _Nonnull)ad {
+- (void)adDidDismissScreen:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
 
-- (void)interstitialRecieveUserAction:(BMMInterstitial * _Nonnull)ad {
+- (void)adDidExpired:(id<BMMDisplayAd> _Nonnull)ad {
     
 }
+
+
+- (void)adDidTrackImpression:(id<BMMDisplayAd> _Nonnull)ad {
+    
+}
+
+
+- (void)adRecieveUserAction:(id<BMMDisplayAd> _Nonnull)ad {
+    
+}
+
 
 @end

@@ -23,7 +23,7 @@ open class MediationNetwork: MediationNetworkProtocol {
     
     public required init() { }
     
-    open func initializeNetwork(_ params: MediationNetworkParams) {
+    open func initializeNetwork<P>(_ params: P) where P : MediationNetworkParamsProtocol {
         self.delegate.flatMap { $0.didFailInitialized(self, MediationError.noContent("Should be override in ad network"))}
     }
     

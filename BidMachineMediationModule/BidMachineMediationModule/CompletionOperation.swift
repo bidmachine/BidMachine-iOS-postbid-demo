@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias CompletionBlock = (MediationAdapter?) -> Void
+typealias CompletionBlock = (MediationAdapterWrapper?) -> Void
 
 class CompletionOperation: AsyncOperation {
     
@@ -20,19 +20,19 @@ class CompletionOperation: AsyncOperation {
     override func main() {
         Logging.log("----- Start mediation block")
         
-        let adaptors:[MediationAdapter] = self.dependencies.compactMap { $0 as? BidOperation }.flatMap { $0.adaptors() }
-        let adaptor = adaptors.maxPriceAdaptor()
+        let wrappers:[MediationAdapterWrapper] = self.dependencies.compactMap { $0 as? BidOperation }.flatMap { $0.adaptorWrappers() }
+        let wrapper = wrappers.maxPriceWrapper()
         
-        Logging.log("------------ Loaded adapters: \(adaptors.adaptorsParams.prettyParams)")
-        if let adaptor = adaptor {
-            Logging.log("------------ 🔥🥳 Max price adapter 🥳🔥: \(adaptor.params.pretty) 🎉🎉🎉")
+        Logging.log("------------ Loaded adapters: \(wrappers)")
+        if let wrapper = wrapper {
+            Logging.log("------------ 🔥🥳 Max price adapter 🥳🔥: \(wrapper) 🎉🎉🎉")
         } else {
             Logging.log("------------ ❌❌ Adaptor not loaded (no fill) ❌❌")
         }
         
         Logging.log("----- Complete mediation block")
         
-        completion(adaptor)
+        completion(wrapper)
         self.state = .finished
     }
 }

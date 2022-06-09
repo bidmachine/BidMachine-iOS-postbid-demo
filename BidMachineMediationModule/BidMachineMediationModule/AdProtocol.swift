@@ -5,79 +5,38 @@
 //  Created by Ilia Lozhkin on 10.05.2022.
 //
 
-import Foundation
+import UIKit
 
-@objc (BMMBannerDelegate) public
-protocol BannerDelegate: AnyObject {
+@objc (BMMDisplayAd) public
+protocol DisplayAd: AnyObject {
     
-    func bannerDidLoadAd(_ ad: Banner)
+    var isReady: Bool { get }
     
-    func bannerFailToLoadAd(_ ad: Banner, with error: Error)
+    weak var delegate: DisplayAdDelegate? { get set }
     
-    func bannerFailToPresentAd(_ ad: Banner, with error: Error)
+    weak var controller: UIViewController? { get set }
     
-    func bannerWillPresentScreenAd(_ ad: Banner)
+    func loadAd(_ builder: RequestBuilder)
     
-    func bannerDidDismissScreenAd(_ ad: Banner)
-    
-    func bannerRecieveUserAction(_ ad: Banner)
-    
-    func bannerDidTrackImpression(_ ad: Banner)
+    func loadAd()
 }
 
-@objc (BMMAutorefreshBannerDelegate) public
-protocol AutorefreshBannerDelegate: AnyObject {
+@objc (BMMDisplayAdDelegate) public
+protocol DisplayAdDelegate: AnyObject {
     
-    func autorefreshBannerDidLoadAd(_ ad: AutorefreshBanner)
+    func adDidLoad(_ ad: DisplayAd)
     
-    func autorefreshBannerFailToLoadAd(_ ad: AutorefreshBanner, with error: Error)
+    func adFailToLoad(_ ad: DisplayAd, with error: Error)
     
-    func autorefreshBannerFailToPresentAd(_ ad: AutorefreshBanner, with error: Error)
+    func adFailToPresent(_ ad: DisplayAd, with error: Error)
     
-    func autorefreshBannerWillPresentScreenAd(_ ad: AutorefreshBanner)
+    func adWillPresentScreen(_ ad: DisplayAd)
     
-    func autorefreshBannerDidDismissScreenAd(_ ad: AutorefreshBanner)
+    func adDidDismissScreen(_ ad: DisplayAd)
     
-    func autorefreshBannerRecieveUserAction(_ ad: AutorefreshBanner)
+    func adRecieveUserAction(_ ad: DisplayAd)
     
-    func autorefreshBannerDidTrackImpression(_ ad: AutorefreshBanner)
-}
-
-@objc (BMMInterstitialDelegate) public
-protocol InterstitialDelegate: AnyObject {
+    func adDidTrackImpression(_ ad: DisplayAd)
     
-    func interstitialDidLoadAd(_ ad: Interstitial)
-    
-    func interstitialFailToLoadAd(_ ad: Interstitial, with error: Error)
-    
-    func interstitialWillPresentAd(_ ad: Interstitial)
-    
-    func interstitialFailToPresentAd(_ ad: Interstitial, with error: Error)
-    
-    func interstitialDidDismissAd(_ ad: Interstitial)
-    
-    func interstitialRecieveUserAction(_ ad: Interstitial)
-    
-    func interstitialDidTrackImpression(_ ad: Interstitial)
-}
-
-@objc (BMMRewardedDelegate) public
-protocol RewardedDelegate: AnyObject {
-    
-    func rewardedDidLoadAd(_ ad: Rewarded)
-    
-    func rewardedFailToLoadAd(_ ad: Rewarded, with error: Error)
-    
-    func rewardedWillPresentAd(_ ad: Rewarded)
-    
-    func rewardedFailToPresentAd(_ ad: Rewarded, with error: Error)
-    
-    func rewardedDidDismissAd(_ ad: Rewarded)
-    
-    func rewardedRecieveUserAction(_ ad: Rewarded)
-    
-    func rewardedDidTrackImpression(_ ad: Rewarded)
-    
-    func rewardedDidTrackReward(_ ad: Rewarded)
-    
+    func adDidExpired(_ ad: DisplayAd)
 }

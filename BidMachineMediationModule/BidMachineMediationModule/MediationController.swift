@@ -9,7 +9,7 @@ import Foundation
 
 protocol MediationControllerDelegate: AnyObject {
     
-    func controllerDidLoad(_ controller: MediationController, _ adapter: MediationAdapter)
+    func controllerDidLoad(_ controller: MediationController, _ wrapper: MediationAdapterWrapper)
     
     func controllerFailWithError(_ controller: MediationController, _ error: Error)
     
@@ -28,13 +28,18 @@ class MediationController {
         return queue
     }()
     
-    func loadAd(_ placement: MediationPlacement) {
+    func loadRequest(_ request: Request) {
         
-        let preBidOperation = PreBidOperation(placement)
-        let postBidOperation = PostBidOperation(placement)
-        let completionOperation = CompletionOperation { adapter in
+        if request.controller == nil {
+            self.delegate.flatMap { $0.controllerFailWithError(self, MediationError.loadingError("Controller is required parameters"))}
+            return
+        }
+        
+        let preBidOperation = PreBidOperation(request)
+        let postBidOperation = PostBidOperation(request)
+        let completionOperation = CompletionOperation { wrapper in
             DispatchQueue.main.async { [weak self] in
-                self.flatMap { $0.complete(with: adapter) }
+                self.flatMap { $0.complete(with: wrapper) }
             }
         }
         
@@ -49,13 +54,13 @@ class MediationController {
 
 private extension MediationController {
     
-    func complete(with adapter: MediationAdapter?) {
+    func complete(with wrapper: MediationAdapterWrapper?) {
         isAvailable = true
-        guard let adapter = adapter else {
+        guard let wrapper = wrapper else {
             self.delegate.flatMap { $0.controllerFailWithError(self, MediationError.noContent("Adapter not loaded")) }
             return;
         }
-        self.delegate.flatMap { $0.controllerDidLoad(self, adapter) }
+        self.delegate.flatMap { $0.controllerDidLoad(self, wrapper) }
     }
     
 }

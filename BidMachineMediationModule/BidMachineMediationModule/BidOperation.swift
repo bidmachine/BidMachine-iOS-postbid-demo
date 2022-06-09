@@ -9,6 +9,6 @@ import Foundation
 
 protocol BidOperation {
     
-    func adaptors() -> [MediationAdapter]
+    func adaptorWrappers() -> [MediationAdapterWrapper]
     
 }

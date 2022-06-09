@@ -8,12 +8,10 @@
 import Foundation
 import UIKit
 
+public typealias RewardCompletion = () -> Void
 
 @objc (BMMRewarded) public
 class Rewarded: NSObject {
-    
-    @objc public
-    weak var delegate: RewardedDelegate?
     
     private lazy var mediationController: MediationController = {
         let controller = MediationController()
@@ -21,73 +19,97 @@ class Rewarded: NSObject {
         return controller
     }()
     
-    private var adapter: MediationAdapter?
+    private weak var _delegate: DisplayAdDelegate?
     
-    public override init() {
-        
-    }
+    private weak var _controller: UIViewController?
     
+    private var wrapper: MediationAdapterWrapper?
+    
+    private var reward: RewardCompletion?
 }
 
-@objc public
-extension Rewarded {
+extension Rewarded: DisplayAd {
     
-    @objc func loadAd() {
-        guard mediationController.isAvailable else { return }
-        mediationController.loadAd(.rewarded)
+    public var delegate: DisplayAdDelegate? {
+        get { return _delegate }
+        set { _delegate = newValue }
     }
     
-    @objc func present(from viewController: UIViewController) {
-        guard var adapter = self.adapter else {
-            self.delegate.flatMap { $0.rewardedFailToPresentAd(self, with: MediationError.presentError("Adapter not found")) }
+    public var controller: UIViewController? {
+        get { return _controller }
+        set { _controller = newValue }
+    }
+
+    public var isReady: Bool {
+        return wrapper.flatMap { $0.isReady } ?? false
+    }
+    
+    public func loadAd(_ builder: RequestBuilder) {
+        let request: Request = Request()
+        builder(request)
+        request
+            .appendPlacement(.rewarded)
+            .appendController(controller)
+        
+        guard mediationController.isAvailable else { return }
+        mediationController.loadRequest(request)
+    }
+    
+    public func loadAd() {
+        self.loadAd { _ in }
+    }
+    
+    @objc public func present(_ reward: @escaping RewardCompletion) {
+        guard let wrapper = self.wrapper else {
+            self.delegate.flatMap { $0.adFailToPresent(self, with: MediationError.presentError("Adapter not found")) }
             return;
         }
         
-        adapter.presentingDelegate = self
-        adapter.present(viewController)
-    }
-    
-    @objc var isReady: Bool {
-        return adapter.flatMap { $0.ready } ?? false
+        self.reward = reward
+        wrapper.present(self)
     }
 }
 
 extension Rewarded: MediationControllerDelegate {
     
-    func controllerDidLoad(_ controller: MediationController, _ adapter: MediationAdapter) {
-        self.adapter = adapter
-        self.delegate.flatMap { $0.rewardedDidLoadAd(self) }
+    func controllerDidLoad(_ controller: MediationController, _ wrapper: MediationAdapterWrapper) {
+        self.wrapper = wrapper
+        self.delegate.flatMap { $0.adDidLoad(self) }
     }
     
     func controllerFailWithError(_ controller: MediationController, _ error: Error) {
-        self.delegate.flatMap { $0.rewardedFailToLoadAd(self, with:error) }
+        self.delegate.flatMap { $0.adFailToLoad(self, with:error) }
     }
 }
 
-extension Rewarded: MediationAdapterPresentingDelegate {
+extension Rewarded: MediationAdapterWrapperDisplayDelegate {
     
-    public func willPresentScreen(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.rewardedWillPresentAd(self) }
+    func willPresentScreen(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adWillPresentScreen(self) }
     }
     
-    public func didFailPresent(_ adapter: MediationAdapter, _ error: Error) {
-        self.delegate.flatMap { $0.rewardedFailToPresentAd(self, with:error) }
+    func didFailPresent(_ wrapper: MediationAdapterWrapper, _ error: Error) {
+        self.delegate.flatMap { $0.adFailToPresent(self, with: error) }
     }
     
-    public func didDismissScreen(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.rewardedDidDismissAd(self) }
+    func didDismissScreen(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adDidDismissScreen(self) }
     }
     
-    public func didTrackImpression(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.rewardedDidTrackImpression(self) }
+    func didTrackImpression(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adDidTrackImpression(self) }
     }
     
-    public func didTrackInteraction(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.rewardedRecieveUserAction(self) }
+    func didTrackInteraction(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adRecieveUserAction(self) }
     }
     
-    public func didTrackReward(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.rewardedDidTrackReward(self) }
+    func didTrackExpired(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adDidExpired(self) }
+    }
+    
+    func didTrackReward(_ wrapper: MediationAdapterWrapper) {
+        self.reward?()
     }
 }
 

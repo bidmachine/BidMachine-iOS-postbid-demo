@@ -7,24 +7,27 @@
 
 import UIKit
 
-public enum MediationPlacement {
-    case banner
-    case interstitial
-    case rewarded
-}
-
-public enum MediationType {
-    case prebid
-    case postbid
-    case unowned
-}
-
-public protocol MediationNetwork {
+open class MediationNetwork: MediationNetworkProtocol {
     
-    init()
-    
-    var type: MediationType { get }
-    
-    func adapter(_ placement: MediationPlacement) -> MediationAdapter?
-}
+    open var name: String = "unowned"
 
+    public typealias T = MediationNetworkParams
+    
+    public typealias U = MediationAdapter
+    
+    public weak var delegate: MediationNetworkDelegate?
+    
+    public var networkName: String {
+        return name
+    }
+    
+    public required init() { }
+    
+    open func initializeNetwork(_ params: MediationNetworkParams) {
+        self.delegate.flatMap { $0.didFailInitialized(self, MediationError.noContent("Should be override in ad network"))}
+    }
+    
+    open func adapter(_ type: MediationType, _ placement: MediationPlacement) -> U.Type? {
+        return MediationAdapter.self
+    }
+}

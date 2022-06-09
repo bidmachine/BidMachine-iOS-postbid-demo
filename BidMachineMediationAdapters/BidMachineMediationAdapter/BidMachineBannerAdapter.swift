@@ -9,17 +9,8 @@ import UIKit
 import BidMachine
 import BidMachineMediationModule
 
-class BidMachineBannerAdapter: NSObject, MediationAdapter {
+class BidMachineBannerAdapter: MediationAdapter {
     
-    weak var loadingDelegate: MediationAdapterLoadingDelegate?
-    
-    weak var presentingDelegate: MediationAdapterPresentingDelegate?
-    
-    var name: String = BidMachineNework.Constants.name
-    
-    var ready: Bool {
-        return banner.isLoaded
-    }
     
     var price: Double {
         return banner.latestAuctionInfo.flatMap { $0.price }.flatMap { $0.doubleValue } ?? 0

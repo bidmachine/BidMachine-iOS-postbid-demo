@@ -8,67 +8,59 @@
 import Foundation
 import UIKit
 
-struct MediationAdaptorsParams {
-    let name: String
-    let price: Double
+open class MediationAdapter: MediationAdapterProtocol {
     
-    var pretty: String {
-        return ("< \(name) : \(price) >")
+    public typealias T = MediationAdapterParams
+    
+    open var price: Double = 0
+    
+    open var ready: Bool = false
+    
+    fileprivate var params: T
+    
+    fileprivate weak var _loadingDelegate: MediationAdapterLoadingDelegate?
+    
+    fileprivate weak var _displayDelegate: MediationAdapterDisplayDelegate?
+    
+    // Public
+    
+    public var adapterPrice: Double {
+        
+        return self.price
     }
-}
 
-public protocol MediationAdapter  {
+    public var adapterReady: Bool  {
+        
+        return self.ready
+    }
     
-    var price: Double { get }
-    
-    var name: String { get }
-    
-    var ready: Bool { get }
-    
-    var loadingDelegate: MediationAdapterLoadingDelegate? { get set }
-    
-    var presentingDelegate: MediationAdapterPresentingDelegate? { get set }
+    public var adapterParams: MediationAdapterParams? {
+        
+        return self.params
+    }
 
-    func load(_ price: Double)
-    
-    func present(_ controller: UIViewController)
-}
+    public var loadingDelegate: MediationAdapterLoadingDelegate? {
+        
+        get { return self._loadingDelegate }
+        set { self._loadingDelegate = newValue }
+    }
 
-public protocol MediationAdapterLoadingDelegate: AnyObject {
-    
-    func didLoad(_ adapter: MediationAdapter)
-    
-    func failLoad(_ adapter: MediationAdapter, _ error: Error)
-}
+    public var displayDelegate: MediationAdapterDisplayDelegate? {
+        
+        get { return self._displayDelegate }
+        set { self._displayDelegate = newValue }
+    }
 
-public protocol MediationAdapterPresentingDelegate: AnyObject {
-    
-    func willPresentScreen(_ adapter: MediationAdapter)
-    
-    func didFailPresent(_ adapter: MediationAdapter, _ error: Error)
-    
-    func didDismissScreen(_ adapter: MediationAdapter)
-    
-    func didTrackImpression(_ adapter: MediationAdapter)
-    
-    func didTrackInteraction(_ adapter: MediationAdapter)
-    
-    func didTrackReward(_ adapter: MediationAdapter)
-    
-    func containerView() -> UIView?
-}
+    public func load () {
+        
+    }
 
-public extension MediationAdapterPresentingDelegate {
-    
-    func didTrackReward(_ adapter: MediationAdapter) {
+    public func present() {
         
     }
     
-    func containerView() -> UIView? {
-        return nil
-    }
-    
-    func rootViewController() -> UIViewController? {
-        return nil
+    public required init(_ params: MediationAdapterParams) {
+        self.params = params
     }
 }
+ 

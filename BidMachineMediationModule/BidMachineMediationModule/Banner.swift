@@ -10,19 +10,17 @@ import UIKit
 @objc (BMMBanner) public final
 class Banner: UIView {
     
-    @objc public
-    weak var delegate: BannerDelegate?
-    
-    @objc public
-    weak var controller: UIViewController?
-    
     private lazy var mediationController: MediationController = {
         let controller = MediationController()
         controller.delegate = self
         return controller
     }()
     
-    private var adapter: MediationAdapter?
+    private weak var _delegate: DisplayAdDelegate?
+    
+    private weak var _controller: UIViewController?
+    
+    private var wrapper: MediationAdapterWrapper?
     
     private var isAdOnScreen: Bool = false
     
@@ -38,84 +36,107 @@ class Banner: UIView {
     
     public override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
-        guard let adapter = self.adapter, adapter.ready, !isAdOnScreen else {
+        guard let wrapper = self.wrapper, wrapper.isReady, !isAdOnScreen else {
             return
         }
         
-        present(from: controller)
+        present()
     }
 }
 
-@objc public
-extension Banner {
+extension Banner : DisplayAd {
     
-    @objc func loadAd() {
+    public var delegate: DisplayAdDelegate? {
+        get { return _delegate }
+        set { _delegate = newValue }
+    }
+    
+    public var controller: UIViewController? {
+        get { return _controller }
+        set { _controller = newValue }
+    }
+    
+    public var isReady: Bool {
+        return wrapper.flatMap { $0.isReady } ?? false
+    }
+    
+    public func loadAd(_ builder: RequestBuilder) {
+        let request: Request = Request()
+        request.appendAdSize(.banner)
+        builder(request)
+        request
+            .appendPlacement(.banner)
+            .appendContainer(self)
+            .appendController(controller)
+        
         guard mediationController.isAvailable else { return }
-        mediationController.loadAd(.banner)
+        mediationController.loadRequest(request)
     }
     
-    @objc var isReady: Bool {
-        return adapter.flatMap { $0.ready } ?? false
+    public func loadAd() {
+        self.loadAd { _ in }
     }
 }
-
 
 private extension Banner {
     
-    func present(from controller: UIViewController?) {
-        guard var adapter = self.adapter, let controller = controller else { return }
-        adapter.presentingDelegate = self
+    func present() {
+        guard let wrapper = self.wrapper else { return }
         
         isAdOnScreen = true
         UIView.animate(withDuration: 0.3) {
             self.subviews.forEach { $0.removeFromSuperview() }
-            adapter.present(controller)
+            wrapper.present(self)
         }
     }
 }
 
 extension Banner: MediationControllerDelegate {
     
-    func controllerDidLoad(_ controller: MediationController, _ adapter: MediationAdapter) {
+    func controllerDidLoad(_ controller: MediationController, _ wrapper: MediationAdapterWrapper) {
         self.isAdOnScreen = false
         
-        self.adapter = adapter
-        self.delegate.flatMap { $0.bannerDidLoadAd(self) }
+        self.wrapper = wrapper
+        self.delegate.flatMap { $0.adDidLoad(self) }
         
         if self.superview != nil {
-            present(from: self.controller)
+            present()
         }
     }
     
     func controllerFailWithError(_ controller: MediationController, _ error: Error) {
-        self.delegate.flatMap { $0.bannerFailToLoadAd(self, with:error) }
+        self.delegate.flatMap { $0.adFailToLoad(self, with:error) }
     }
 }
 
-extension Banner: MediationAdapterPresentingDelegate {
+extension Banner: MediationAdapterWrapperDisplayDelegate {
     
-    public func willPresentScreen(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.bannerWillPresentScreenAd(self) }
+    func willPresentScreen(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adWillPresentScreen(self) }
     }
     
-    public func didFailPresent(_ adapter: MediationAdapter, _ error: Error) {
+    func didFailPresent(_ wrapper: MediationAdapterWrapper, _ error: Error) {
         self.isAdOnScreen = false
-        self.delegate.flatMap { $0.bannerFailToPresentAd(self, with: error) }
+        self.delegate.flatMap { $0.adFailToPresent(self, with: error) }
     }
     
-    public func didDismissScreen(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.bannerDidDismissScreenAd(self) }
+    func didDismissScreen(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adDidDismissScreen(self) }
     }
     
-    public func didTrackImpression(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.bannerDidTrackImpression(self) }
+    func didTrackImpression(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adDidTrackImpression(self) }
     }
     
-    public func didTrackInteraction(_ adapter: MediationAdapter) {
-        self.delegate.flatMap { $0.bannerRecieveUserAction(self) }
+    func didTrackInteraction(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adRecieveUserAction(self) }
     }
     
-    public func containerView() -> UIView? {
-        return self
+    func didTrackExpired(_ wrapper: MediationAdapterWrapper) {
+        self.delegate.flatMap { $0.adDidExpired(self) }
+    }
+    
+    func didTrackReward(_ wrapper: MediationAdapterWrapper) {
+        
     }
 }

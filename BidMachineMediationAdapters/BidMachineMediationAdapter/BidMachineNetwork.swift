@@ -9,17 +9,17 @@ import BidMachineMediationModule
 
 class BidMachineNework: MediationNetwork {
     
-    struct Constants {
-        static let name = "BidMachine"
-    }
-    
-    var type: MediationType = .unowned
-    
-    func adapter(_ placement: MediationPlacement) -> MediationAdapter? {
-        return placement.adapter()
-    }
+    public typealias T = BidMachineNeworkParams
     
     required init() {
+        self.name = "BidMachine"
+    }
+    
+    override func adapter(_ type: MediationType, _ placement: MediationPlacement) -> MediationAdapter.Type? {
+        return nil
+    }
+    
+    override func initializeNetwork(_ params: MediationNetworkParams) {
         
     }
 }

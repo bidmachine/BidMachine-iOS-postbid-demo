@@ -10,15 +10,13 @@ import UIKit
 @objc (BMMAutorefreshBanner) public final
 class AutorefreshBanner: UIView {
     
-    @objc public
-    weak var delegate: AutorefreshBannerDelegate?
+    private weak var _delegate: DisplayAdDelegate?
     
-    @objc public
-    weak var controller: UIViewController?
+    private weak var _controller: UIViewController?
     
     private var banner: Banner?
     
-    @objc private var cachedBanner: Banner?
+    private var cachedBanner: Banner?
     
     private var isAdOnScreen: Bool = false
     
@@ -27,6 +25,12 @@ class AutorefreshBanner: UIView {
     private var reloadTimer: Timer?
     
     private var refreshTimer: Timer?
+    
+    private lazy var request: Request = {
+        let request = Request()
+        request.appendAdSize(.banner)
+        return request
+    }()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,10 +51,30 @@ class AutorefreshBanner: UIView {
     }
 }
 
-@objc public
-extension AutorefreshBanner {
+extension AutorefreshBanner: DisplayAd {
     
-    @objc func loadAd() {
+    public var delegate: DisplayAdDelegate? {
+        get { return _delegate }
+        set { _delegate = newValue }
+    }
+    
+    public var controller: UIViewController? {
+        get { return _controller }
+        set { _controller = newValue }
+    }
+    
+    public var isReady: Bool {
+        return cachedBanner.flatMap { $0.isReady } ?? false
+    }
+    
+    public func loadAd(_ builder: RequestBuilder) {
+        self.request = {
+            let request = Request()
+            request.appendAdSize(.banner)
+            return request
+        }()
+        builder(self.request)
+        
         if !isAdOnScreen, !isReady {
             cacheBanner()
         } else if !isAdOnScreen {
@@ -58,15 +82,15 @@ extension AutorefreshBanner {
         }
     }
     
-    @objc func hideAd() {
+    public func loadAd() {
+        self.loadAd { _ in }
+    }
+    
+    @objc public func hideAd() {
         if isAdOnScreen {
             isAdOnScreen = false
             self.subviews.forEach { $0.removeFromSuperview() }
         }
-    }
-    
-    @objc var isReady: Bool {
-        return cachedBanner.flatMap { $0.isReady } ?? false
     }
 }
 
@@ -146,46 +170,62 @@ private extension AutorefreshBanner {
         banner.delegate = self
         banner.controller = controller
         banner.translatesAutoresizingMaskIntoConstraints = false
-        banner.loadAd()
+        banner.loadAd { builder in builder
+                .appendAdSize(self.request.size)
+                .appendTimeout(self.request.timeout)
+                .appendPriceFloor(self.request.priceFloor)
+                
+            self.request.adapterParams.forEach { pair in
+                builder.appendAdUnit(pair.name, pair.params)
+            }
+        }
     }
     
 }
 
-extension AutorefreshBanner: BannerDelegate {
+extension AutorefreshBanner: DisplayAdDelegate {
     
-    public func bannerDidLoadAd(_ ad: Banner) {
-        cachedBanner = ad
+    public func adDidLoad(_ ad: DisplayAd) {
+        guard let banner = ad as? Banner else {
+            self.adFailToLoad(ad, with: MediationError.noContent("Autorefresh cached banner should be Banner"))
+            return
+        }
+        cachedBanner = banner
         if isShowWhenLoad {
             presentBanner()
         } else if isAdOnScreen {
             refreshBannerIfNeeded()
         }
-        self.delegate.flatMap { $0.autorefreshBannerDidLoadAd(self) }
+        self.delegate.flatMap { $0.adDidLoad(self) }
     }
     
-    public func bannerFailToLoadAd(_ ad: Banner, with error: Error) {
+    public func adFailToLoad(_ ad: DisplayAd, with error: Error) {
         cacheBannerIfNeeded()
-        self.delegate.flatMap { $0.autorefreshBannerFailToLoadAd(self, with: error) }
+        self.delegate.flatMap { $0.adFailToLoad(self, with: error) }
     }
     
-    public func bannerFailToPresentAd(_ ad: Banner, with error: Error) {
+    public func adFailToPresent(_ ad: DisplayAd, with error: Error) {
         cacheBannerIfNeeded()
-        self.delegate.flatMap { $0.autorefreshBannerFailToPresentAd(self, with: error) }
+        self.delegate.flatMap { $0.adFailToPresent(self, with: error) }
     }
     
-    public func bannerWillPresentScreenAd(_ ad: Banner) {
-        self.delegate.flatMap { $0.autorefreshBannerWillPresentScreenAd(self) }
+    public func adWillPresentScreen(_ ad: DisplayAd) {
+        self.delegate.flatMap { $0.adWillPresentScreen(self) }
     }
     
-    public func bannerDidDismissScreenAd(_ ad: Banner) {
-        self.delegate.flatMap { $0.autorefreshBannerDidDismissScreenAd(self) }
+    public func adDidDismissScreen(_ ad: DisplayAd) {
+        self.delegate.flatMap { $0.adDidDismissScreen(self) }
     }
     
-    public func bannerRecieveUserAction(_ ad: Banner) {
-        self.delegate.flatMap { $0.autorefreshBannerRecieveUserAction(self) }
+    public func adRecieveUserAction(_ ad: DisplayAd) {
+        self.delegate.flatMap { $0.adRecieveUserAction(self) }
     }
     
-    public func bannerDidTrackImpression(_ ad: Banner) {
-        self.delegate.flatMap { $0.autorefreshBannerDidTrackImpression(self) }
+    public func adDidTrackImpression(_ ad: DisplayAd) {
+        self.delegate.flatMap { $0.adDidTrackImpression(self) }
+    }
+    
+    public func adDidExpired(_ ad: DisplayAd) {
+        self.delegate.flatMap { $0.adDidExpired(self) }
     }
 }

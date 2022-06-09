@@ -7,27 +7,25 @@
 
 import Foundation
 
-public protocol MediationNetworkProtocol: AnyObject {
-    
-    associatedtype T: MediationNetworkParamsProtocol
-    associatedtype U: MediationAdapterProtocol
+public protocol MediationNetworkProtocol {
 
-    init()
-    
     var networkName: String { get }
-    
+
     var delegate: MediationNetworkDelegate? { get set }
+
     
-    func adapter(_ type: MediationType, _ placement: MediationPlacement) -> U.Type?
+    init()
+
+    func initializeNetwork(_ params: MediationParams)
     
-    func initializeNetwork<P: MediationNetworkParamsProtocol>(_ params: P)
+    func adapter(_ type: MediationType, _ placement: MediationPlacement) -> MediationAdapterProtocol.Type?
 }
 
 
 public protocol MediationNetworkDelegate: AnyObject {
     
-    func didInitialized(_ network: MediationNetwork)
+    func didInitialized(_ network: MediationNetworkProtocol)
     
-    func didFailInitialized(_ network: MediationNetwork, _ error: Error)
+    func didFailInitialized(_ network: MediationNetworkProtocol, _ error: Error)
 }
 

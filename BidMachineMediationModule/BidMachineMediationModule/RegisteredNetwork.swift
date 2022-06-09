@@ -15,18 +15,19 @@ class RegisteredNetwork {
         case ready
     }
     
-    let params: MediationNetworkParams
+    var network: MediationNetworkProtocol
     
-    let network: MediationNetwork
+    var params: MediationParams
     
     private var state: State = .idle
     
     init?(_ pair: MediationPair) {
-        let klass = NSClassFromString(pair.name) as? MediationNetwork.Type
+        let klass = NSClassFromString(pair.name) as? MediationNetworkProtocol.Type
         guard let klass = klass else {
             return nil
         }
-        params = klass.T.init(pair.params)
+
+        params = pair.params
         network = klass.init()
     }
 }
@@ -46,11 +47,11 @@ extension RegisteredNetwork {
 
 extension RegisteredNetwork: MediationNetworkDelegate {
     
-    func didInitialized(_ network: MediationNetwork) {
+    func didInitialized(_ network: MediationNetworkProtocol) {
         self.state = .ready
     }
     
-    func didFailInitialized(_ network: MediationNetwork, _ error: Error) {
+    func didFailInitialized(_ network: MediationNetworkProtocol, _ error: Error) {
         self.state = .idle
     }
 }

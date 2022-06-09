@@ -9,19 +9,17 @@ import UIKit
 
 public protocol MediationAdapterProtocol: AnyObject  {
     
-    associatedtype T: MediationAdapterParamsProtocol
-    
     var adapterPrice: Double { get }
     
     var adapterReady: Bool { get }
     
-    var adapterParams: T? { get }
+    var adapterParams: MediationAdapterParamsProtocol { get set }
     
     var loadingDelegate: MediationAdapterLoadingDelegate? { get set }
     
     var displayDelegate: MediationAdapterDisplayDelegate? { get set }
     
-    init(_ params: T)
+    init(_ params: MediationParams)
 
     func load()
     
@@ -30,24 +28,24 @@ public protocol MediationAdapterProtocol: AnyObject  {
 
 public protocol MediationAdapterLoadingDelegate: AnyObject {
     
-    func didLoad(_ adapter: MediationAdapter)
+    func didLoad(_ adapter: MediationAdapterProtocol)
     
-    func failLoad(_ adapter: MediationAdapter, _ error: Error)
+    func failLoad(_ adapter: MediationAdapterProtocol, _ error: Error)
 }
 
 public protocol MediationAdapterDisplayDelegate: AnyObject {
     
-    func willPresentScreen(_ adapter: MediationAdapter)
+    func willPresentScreen(_ adapter: MediationAdapterProtocol)
     
-    func didFailPresent(_ adapter: MediationAdapter, _ error: Error)
+    func didFailPresent(_ adapter: MediationAdapterProtocol, _ error: Error)
     
-    func didDismissScreen(_ adapter: MediationAdapter)
+    func didDismissScreen(_ adapter: MediationAdapterProtocol)
     
-    func didTrackImpression(_ adapter: MediationAdapter)
+    func didTrackImpression(_ adapter: MediationAdapterProtocol)
     
-    func didTrackInteraction(_ adapter: MediationAdapter)
+    func didTrackInteraction(_ adapter: MediationAdapterProtocol)
     
-    func didTrackReward(_ adapter: MediationAdapter)
+    func didTrackReward(_ adapter: MediationAdapterProtocol)
     
-    func didTrackExpired(_ adapter: MediationAdapter)
+    func didTrackExpired(_ adapter: MediationAdapterProtocol)
 }

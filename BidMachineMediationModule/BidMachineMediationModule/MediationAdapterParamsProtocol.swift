@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol MediationAdapterParamsProtocol: AnyObject {
+public protocol MediationAdapterParamsProtocol {
     
     var size: MediationSize { get set }
     
@@ -17,5 +17,5 @@ public protocol MediationAdapterParamsProtocol: AnyObject {
     
     var container: UIView? { get set }
     
-    init(_ params: MediationParams)
+//    init(_ params: MediationParams)
 }

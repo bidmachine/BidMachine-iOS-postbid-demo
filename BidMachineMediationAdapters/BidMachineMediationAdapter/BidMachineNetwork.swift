@@ -8,30 +8,61 @@
 import BidMachine
 import BidMachineMediationModule
 
-class BidMachineNework: MediationNetwork {
+class BidMachineNework: MediationNetworkProtocol {
     
-    public typealias T = BidMachineNeworkParams
+    var networkName: String = "BidMachine"
     
-    required init() {
-        super.init()
-        name = "BidMachine"
-    }
+    weak var delegate: MediationNetworkDelegate?
     
-    override func adapter(_ type: MediationType, _ placement: MediationPlacement) -> MediationAdapter.Type? {
-        return nil
-    }
-    
-    override func initializeNetwork<P>(_ params: P) where P : MediationNetworkParamsProtocol {
-        guard let params: T = params as? T, let sourceId = params.sourceId else {
-            delegate.flatMap { $0.didFailInitialized(self, MediationError.loadingError("Required params id null")) }
+    func initializeNetwork(_ params: MediationParams) {
+        guard let config: BidMachineNeworkParams = params.decode() else {
+            delegate.flatMap { $0.didFailInitialized(self, MediationError.loadingError("BidMachine initialization params is null"))}
             return
         }
         
-        BDMSdk.shared().startSession(withSellerID: sourceId) {
-            
+        if BDMSdk.shared().isInitialized {
+            delegate.flatMap { $0.didInitialized(self) }
+            return
+        }
+        
+        BDMSdk.shared().startSession(withSellerID: config.sourceId) { [weak self] in
+            self.flatMap { $0.delegate?.didInitialized($0) }
         }
     }
+    
+    func adapter(_ type: MediationType, _ placement: MediationPlacement) -> MediationAdapterProtocol.Type? {
+        return nil
+    }
+    
+    required init() {
+        
+    }
 }
+
+//class BidMachineNework: MediationNetworkProtocol {
+//
+//    public typealias T = BidMachineNeworkParams
+//
+//    required init() {
+//        super.init()
+//        name = "BidMachine"
+//    }
+//
+//    override func adapter(_ type: MediationType, _ placement: MediationPlacement) -> MediationAdapter.Type? {
+//        return nil
+//    }
+//
+//    override func initializeNetwork<P>(_ params: P) where P : MediationNetworkParamsProtocol {
+//        guard let params: T = params as? T, let sourceId = params.sourceId else {
+//            delegate.flatMap { $0.didFailInitialized(self, MediationError.loadingError("Required params id null")) }
+//            return
+//        }
+//
+//        BDMSdk.shared().startSession(withSellerID: sourceId) {
+//
+//        }
+//    }
+//}
 
 //class BidMachinePreBidNetwork: BidMachineNework {
 //    override var type: MediationType {

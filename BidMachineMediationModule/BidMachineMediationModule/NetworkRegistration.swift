@@ -38,7 +38,7 @@ extension NetworkRegistration {
 
 extension NetworkRegistration {
     
-    func network(_ name: String) -> MediationNetwork? {
+    func network(_ name: String) -> MediationNetworkProtocol? {
         return networks.filter { $0.network.networkName == name && $0.initializeIfNeeded() }.first?.network
     }
 }

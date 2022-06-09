@@ -13,7 +13,7 @@
 #warning - Make sure to add your Google SDK key in the Info.plist under the "GADApplicationIdentifier" key
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [BMMNetworkRegistration.shared registerNetwork:@"BidMachineMediationAdapter.BidMachineNework" : @{@"source_id" : @"5"}];
+    [BMMNetworkRegistration.shared registerNetwork:@"BidMachineMediationAdapter.BidMachineNework" : @{@"sourceId" : @"5"}];
     
 //     [self startBidMachine:^{
 //         // Initialize the AppLovin SDK

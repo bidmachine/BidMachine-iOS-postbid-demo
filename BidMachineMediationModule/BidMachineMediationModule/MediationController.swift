@@ -54,8 +54,7 @@ class MediationController {
         
         Logging.log("----- Start mediation")
         self.mediationTime = Date().timeIntervalSince1970
-        let timeout = request.timeout > 0 ? request.timeout : 20
-        self.timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: request.timeout, repeats: false, block: { _ in
             postBidOperation.cancel()
             preBidOperation.cancel()
         })

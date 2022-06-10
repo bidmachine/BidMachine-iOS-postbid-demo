@@ -42,7 +42,11 @@ protocol AdRequest: AnyObject {
     
     @discardableResult func appendTimeout(_ timeout: Double) -> AdRequest
     
+    @discardableResult func appendTimeout(_ timeout: Double, by type: MediationType) -> AdRequest
+    
     @discardableResult func appendAdUnit(_ name: String, _ params: MediationParams) -> AdRequest
+    
+    
     
 }
 

@@ -31,7 +31,11 @@ class Request {
     
     private(set) var priceFloor: Double = 0
     
-    private(set) var timeout: Double = 10
+    private(set) var timeout: Double = 20
+    
+    private(set) var prebidTimeout: Double = 20
+    
+    private(set) var postbidTimeout: Double = 20
     
     private(set) var adapterParams: [MediationPair] = []
     
@@ -63,13 +67,23 @@ extension Request {
 
 extension Request : AdRequest {
     
+    @discardableResult func appendTimeout(_ timeout: Double, by type: MediationType) -> AdRequest {
+        switch type {
+        case .prebid: timeout > 0 ? self.prebidTimeout = timeout : nil
+        case .postbid: timeout > 0 ? self.postbidTimeout = timeout : nil
+        }
+        return self
+    }
+    
     @discardableResult func appendPriceFloor(_ price: Double) -> AdRequest {
         self.priceFloor = price
         return self
     }
     
     @discardableResult func appendTimeout(_ timeout: Double) -> AdRequest {
-        self.timeout = timeout
+        if timeout > 0 {
+            self.timeout = timeout
+        }
         return self
     }
     

@@ -21,6 +21,8 @@
     self.intestitial.controller = self;
     
     [self.intestitial loadAd:^(id<BMMAdRequest> builder) {
+        [builder appendTimeout:1 by:BMMTypePrebid];
+        [builder appendTimeout:1 by:BMMTypePostbid];
         [builder appendTimeout:1];
         [builder appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
         [builder appendAdUnit:BMMNetworDefines.applovin.name : @{@"unitId" : @"YOUR_UNIT_ID"}];

@@ -174,6 +174,8 @@ private extension AutorefreshBanner {
                 .appendAdSize(self.request.size)
                 .appendTimeout(self.request.timeout)
                 .appendPriceFloor(self.request.priceFloor)
+                .appendTimeout(self.request.prebidTimeout, by: .prebid)
+                .appendTimeout(self.request.postbidTimeout, by: .postbid)
                 
             self.request.adapterParams.forEach { pair in
                 builder.appendAdUnit(pair.name, pair.params)

@@ -21,7 +21,6 @@ enum MediationPlacement: Int {
 
 @objc (BMMType) public
 enum MediationType: Int {
-    case unowned
     case prebid
     case postbid
 }

@@ -7,6 +7,31 @@
 
 import Foundation
 
+@objc (BMMNetworConstants) public
+class NetworConstants: NSObject {
+    
+    @objc public let name: String
+    @objc public let klass: String
+    
+    internal init(_ name: String, _ klass: String) {
+        self.name = name
+        self.klass = klass
+    }
+}
+
+@objc (BMMNetworDefines) public
+class NetworDefines: NSObject {
+    
+    @objc public static
+    let bidmachine = NetworConstants("BidMachine", "BidMachineMediationAdapter.BidMachineNework")
+    
+    @objc public static
+    let applovin = NetworConstants("Applovin_MAX", "BidMachineMediationAdapter.ApplovinNetwork")
+    
+    @objc public static
+    let admob = NetworConstants("AdMob", "BidMachineMediationAdapter.AdMobdNetwork")
+}
+
 
 @objc (BMMNetworkRegistration) public
 class NetworkRegistration: NSObject {

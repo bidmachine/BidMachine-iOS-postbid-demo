@@ -1,20 +1,17 @@
 //
-//  BidMachineNeworkParams.swift
-//  BidMachineMediationAdapter
+//  ApplovinParams.swift
+//  ApplovinMediationAdapter
 //
-//  Created by Ilia Lozhkin on 09.06.2022.
+//  Created by Ilia Lozhkin on 10.06.2022.
 //
 
 import UIKit
 import BidMachineMediationModule
 
-struct BidMachineNeworkParams: MediationNetworkParamsProtocol {
+struct ApplovinNeworkParams: MediationNetworkParamsProtocol {
     
     struct Config: Codable {
-        
-        let sourceId: String
-        let testMode: String?
-        let storeId: String?
+
     }
     
     let config: Config?
@@ -26,9 +23,11 @@ struct BidMachineNeworkParams: MediationNetworkParamsProtocol {
     }
 }
 
-struct BidMachineAdapterParams: MediationAdapterParamsProtocol {
+struct ApplovinAdapterParams: MediationAdapterParamsProtocol {
     
     struct Config: Codable {
+        
+        let unitId: String
         
         let targetingParams: [String : String]?
         

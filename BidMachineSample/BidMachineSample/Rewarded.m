@@ -21,7 +21,7 @@
     self.rewarded.controller = self;
     
     [self.rewarded loadAd:^(id<BMMAdRequest> builder) {
-        [builder appendAdUnit:@"BidMachine" : @{}];
+        [builder appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
     }];
 }
 

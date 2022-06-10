@@ -14,10 +14,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [BMMNetworkRegistration.shared registerNetwork:@"BidMachineMediationAdapter.BidMachineNework" : @{@"sourceId" : @"1",
-                                                                                                      @"testMode" : @"true",
-                                                                                                      @"storeId"  : @"1111",
-                                                                                                    }];
+    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.bidmachine.klass : @{@"sourceId" : @"1",
+                                                                                         @"testMode" : @"true",
+                                                                                         @"storeId"  : @"1111",
+                                                                                       }];
     
 //     [self startBidMachine:^{
 //         // Initialize the AppLovin SDK

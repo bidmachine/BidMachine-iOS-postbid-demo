@@ -10,7 +10,7 @@ import BidMachineMediationModule
 
 class BidMachineNework: MediationNetworkProtocol {
     
-    var networkName: String = "BidMachine"
+    var networkName: String = NetworDefines.bidmachine.name
     
     weak var delegate: MediationNetworkDelegate?
     

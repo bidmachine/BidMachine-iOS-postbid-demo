@@ -7,7 +7,7 @@
 
 import BidMachineMediationModule
 
-class AdMobPostBidNetwork: MediationNetwork {
+class AdMobdNetwork: MediationNetwork {
     
     struct LineItem {
         let price: Double

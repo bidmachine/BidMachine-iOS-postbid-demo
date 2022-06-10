@@ -9,46 +9,54 @@ import UIKit
 import AppLovinSDK
 import BidMachineMediationModule
 
-class ApplovinBannerAdapter: NSObject, MediationAdapter {
+class ApplovinBannerAdapter: NSObject, MediationAdapterProtocol {
     
     weak var loadingDelegate: MediationAdapterLoadingDelegate?
     
-    weak var presentingDelegate: MediationAdapterPresentingDelegate?
+    weak var displayDelegate: MediationAdapterDisplayDelegate?
     
-    var name: String = ApplovinPreBidNetwork.Constants.name
+    var adapterParams: MediationAdapterParamsProtocol
     
-    var ready: Bool {
-        return isLoaded
+    var adapterPrice: Double {
+        return revenue * 1000
     }
     
-    var price: Double {
-        return revenue * 1000
+    var adapterReady: Bool {
+        return isLoaded
     }
     
     private var revenue: Double = 0
     
     private var isLoaded: Bool = false
     
-    private var unitId: String
+    private var banner: MAAdView?
     
-    private lazy var banner: MAAdView = {
+    required init(_ params: MediationParams) {
+        adapterParams = ApplovinAdapterParams(params)
+    }
+    
+    func load() {
+        guard
+            let config = self.adapterParams as? ApplovinAdapterParams,
+            let unitId = config.config?.unitId
+        else {
+            loadingDelegate.flatMap { $0.failLoad(self, MediationError.loadingError("Applovin unitId is null"))}
+            return
+        }
+        
         let banner = MAAdView(adUnitIdentifier: unitId, adFormat: MAAdFormat.banner)
         banner.frame = CGRect(origin: .zero, size: MAAdFormat.banner.size)
         banner.delegate = self
-        return banner
-    }()
-    
-    init(_ unitId: String) {
-        self.unitId = unitId
-    }
-    
-    func load(_ price: Double) {
+        
         banner.loadAd()
     }
     
-    func present(_ controller: UIViewController) {
-        guard let view = self.presentingDelegate?.containerView() else {
-            self.presentingDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError("Applovin banner"))}
+    func present() {
+        guard
+            let view = adapterParams.container,
+            let banner = self.banner
+        else {
+            self.displayDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError("Applovin banner"))}
             return;
         }
         
@@ -66,7 +74,7 @@ extension ApplovinBannerAdapter: MAAdViewAdDelegate {
         isLoaded = true
         revenue = ad.revenue
         
-        banner.stopAutoRefresh()
+        banner?.stopAutoRefresh()
         self.loadingDelegate.flatMap { $0.didLoad(self) }
     }
     
@@ -75,23 +83,23 @@ extension ApplovinBannerAdapter: MAAdViewAdDelegate {
     }
     
     func didDisplay(_ ad: MAAd) {
-        self.presentingDelegate.flatMap { $0.didTrackImpression(self) }
+        self.displayDelegate.flatMap { $0.didTrackImpression(self) }
     }
     
     func didFail(toDisplay ad: MAAd, withError error: MAError) {
-        self.presentingDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError(error.description)) }
+        self.displayDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError(error.description)) }
     }
     
     func didClick(_ ad: MAAd) {
-        self.presentingDelegate.flatMap { $0.didTrackInteraction(self) }
+        self.displayDelegate.flatMap { $0.didTrackInteraction(self) }
     }
     
     func didExpand(_ ad: MAAd) {
-        self.presentingDelegate.flatMap { $0.willPresentScreen(self) }
+        self.displayDelegate.flatMap { $0.willPresentScreen(self) }
     }
     
     func didCollapse(_ ad: MAAd) {
-        self.presentingDelegate.flatMap { $0.didDismissScreen(self) }
+        self.displayDelegate.flatMap { $0.didDismissScreen(self) }
     }
     
     func didHide(_ ad: MAAd) {
@@ -99,4 +107,20 @@ extension ApplovinBannerAdapter: MAAdViewAdDelegate {
     }
     
 }
+
+private extension MediationSize {
+    
+    func bannerSize() -> MAAdFormat {
+        switch self {
+        case .unowned: return MAAdFormat.banner
+        case .banner: return MAAdFormat.banner
+        case .mrec: return MAAdFormat.mrec
+        case .leaderboard: return MAAdFormat.leader
+        @unknown default:
+            return MAAdFormat.banner
+        }
+    }
+    
+}
+
 

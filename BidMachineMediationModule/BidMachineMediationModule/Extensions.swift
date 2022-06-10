@@ -14,23 +14,11 @@ extension Array where Element == MediationAdapterWrapper {
     }
 }
 
-//extension MediationAdapter {
-//    
-//    var params: MediationAdaptorsParams {
-//        return MediationAdaptorsParams(name: self.name, price: self.price)
-//    }
-//}
-//
-//extension Array where Element == MediationAdapter {
-//    
-//    var adaptorsParams : [MediationAdaptorsParams] {
-//        return self.compactMap { $0.params }
-//    }
-//}
-//
-//extension Array where Element == MediationAdaptorsParams {
-//    
-//    var prettyParams : [String] {
-//        return self.compactMap { $0.pretty }
-//    }
-//}
+public extension Dictionary {
+    
+    func decode<T: Codable>() -> T? {
+        let data = try? JSONSerialization.data(withJSONObject: self)
+        return data.flatMap { try? JSONDecoder().decode(T.self, from: $0) }
+    }
+    
+}

@@ -38,7 +38,7 @@ extension RegisteredNetwork {
         network.delegate = self
         
         switch self.state {
-        case .idle: network.initializeNetwork(params); return false
+        case .idle: self.state = .pending; network.initializeNetwork(params); return false
         case .pending: return false
         case .ready: return true
         }

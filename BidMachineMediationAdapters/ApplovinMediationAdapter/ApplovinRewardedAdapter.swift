@@ -9,41 +9,51 @@ import UIKit
 import AppLovinSDK
 import BidMachineMediationModule
 
-class ApplovinRewardedAdapter: NSObject, MediationAdapter {
+class ApplovinRewardedAdapter: NSObject, MediationAdapterProtocol {
     
     weak var loadingDelegate: MediationAdapterLoadingDelegate?
     
-    weak var presentingDelegate: MediationAdapterPresentingDelegate?
+    weak var displayDelegate: MediationAdapterDisplayDelegate?
     
-    var name: String = ApplovinPreBidNetwork.Constants.name
+    var adapterParams: MediationAdapterParamsProtocol
     
-    var ready: Bool {
-        return rewarded.isReady
+    var adapterPrice: Double {
+        return revenue * 1000
     }
     
-    var price: Double {
-        return revenue * 1000
+    var adapterReady: Bool {
+        return rewarded?.isReady ?? false
     }
     
     private var revenue: Double = 0
     
-    private var unitId: String
+    private var rewarded: MARewardedAd?
     
-    private lazy var rewarded: MARewardedAd = {
-        let rewarded = MARewardedAd.shared(withAdUnitIdentifier: unitId)
-        rewarded.delegate = self
-        return rewarded
-    }()
-    
-    init(_ unitId: String) {
-        self.unitId = unitId
+    required init(_ params: MediationParams) {
+        adapterParams = ApplovinAdapterParams(params)
     }
     
-    func load(_ price: Double) {
+    func load() {
+        guard
+            let config = self.adapterParams as? ApplovinAdapterParams,
+            let unitId = config.config?.unitId
+        else {
+            loadingDelegate.flatMap { $0.failLoad(self, MediationError.loadingError("Applovin unitId is null"))}
+            return
+        }
+        
+        let rewarded = MARewardedAd.shared(withAdUnitIdentifier: unitId)
+        rewarded.delegate = self
         rewarded.load()
     }
     
-    func present(_ controller: UIViewController) {
+    func present() {
+        guard
+            let rewarded = self.rewarded
+        else {
+            self.displayDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError("Applovin rewarded"))}
+            return;
+        }
         rewarded.show()
     }
 }
@@ -60,24 +70,24 @@ extension ApplovinRewardedAdapter: MARewardedAdDelegate {
     }
     
     func didDisplay(_ ad: MAAd) {
-        self.presentingDelegate.flatMap { $0.willPresentScreen(self) }
-        self.presentingDelegate.flatMap { $0.didTrackImpression(self) }
+        self.displayDelegate.flatMap { $0.willPresentScreen(self) }
+        self.displayDelegate.flatMap { $0.didTrackImpression(self) }
     }
     
     func didFail(toDisplay ad: MAAd, withError error: MAError) {
-        self.presentingDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError(error.description)) }
+        self.displayDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError(error.description)) }
     }
     
     func didHide(_ ad: MAAd) {
-        self.presentingDelegate.flatMap { $0.didDismissScreen(self) }
+        self.displayDelegate.flatMap { $0.didDismissScreen(self) }
     }
     
     func didClick(_ ad: MAAd) {
-        self.presentingDelegate.flatMap { $0.didTrackInteraction(self) }
+        self.displayDelegate.flatMap { $0.didTrackInteraction(self) }
     }
     
     func didRewardUser(for ad: MAAd, with reward: MAReward) {
-        self.presentingDelegate.flatMap { $0.didTrackReward(self) }
+        self.displayDelegate.flatMap { $0.didTrackReward(self) }
     }
     
     func didStartRewardedVideo(for ad: MAAd) {

@@ -35,6 +35,11 @@ class MediationController {
             return
         }
         
+        if request.adapterParams.count == 0 {
+            request
+                .appendAdUnit(NetworDefines.bidmachine.name, MediationParams())
+        }
+        
         let preBidOperation = PreBidOperation(request)
         let postBidOperation = PostBidOperation(request)
         let completionOperation = CompletionOperation { wrapper in

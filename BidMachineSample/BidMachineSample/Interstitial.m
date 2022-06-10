@@ -21,7 +21,7 @@
     self.intestitial.controller = self;
     
     [self.intestitial loadAd:^(id<BMMAdRequest> builder) {
-        [builder appendAdUnit:@"BidMachine" : @{}];
+        [builder appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
     }];
 }
 

@@ -49,6 +49,7 @@ class ApplovinBannerAdapter: NSObject, MediationAdapterProtocol {
         banner.delegate = self
         
         banner.loadAd()
+        self.banner = banner
     }
     
     func present() {
@@ -120,7 +121,6 @@ private extension MediationSize {
             return MAAdFormat.banner
         }
     }
-    
 }
 
 

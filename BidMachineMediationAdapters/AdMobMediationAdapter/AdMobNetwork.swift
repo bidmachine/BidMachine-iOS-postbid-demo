@@ -6,21 +6,24 @@
 //
 
 import BidMachineMediationModule
+import GoogleMobileAds
 
-class AdMobdNetwork: MediationNetwork {
+class AdMobdNetwork: MediationNetworkProtocol {
     
-    struct LineItem {
-        let price: Double
-        let unitId: String
+    var networkName: String = NetworDefines.admob.name
+    
+    weak var delegate: MediationNetworkDelegate?
+    
+    func initializeNetwork(_ params: MediationParams) {
+        GADMobileAds.sharedInstance().start { [weak self] _ in
+            self.flatMap { $0.delegate?.didInitialized($0) }
+        }
     }
     
-    struct Constants {
-        static let name = "AdMob"
-    }
-    
-    var type: MediationType = .postbid
-    
-    func adapter(_ placement: MediationPlacement) -> MediationAdapter? {
+    func adapter(_ type: MediationType, _ placement: MediationPlacement) -> MediationAdapterProtocol.Type? {
+        if type == .prebid {
+            return nil
+        }
         return placement.adapter()
     }
     
@@ -30,17 +33,17 @@ class AdMobdNetwork: MediationNetwork {
 }
 
 extension MediationPlacement {
-    func adapter() -> MediationAdapter? {
+    func adapter() -> MediationAdapterProtocol.Type? {
         switch self {
-        case .banner: return AdMobBannerAdapter()
-        case .interstitial: return AdMobInterstitialAdapter()
-        case .rewarded: return AdMobRewardedAdapter()
+        case .banner: return AdMobBannerAdapter.self
+        case .interstitial: return AdMobInterstitialAdapter.self
+        case .rewarded: return AdMobRewardedAdapter.self
         default: return nil
         }
     }
 }
 
-extension Array where Element == AdMobPostBidNetwork.LineItem {
+extension Array where Element == AdMobAdapterParams.Config.LineItem {
     
     func lineItemWithPrice(_ price: Double) -> Element? {
         return self.sorted { $0.price < $1.price }.filter { $0.price > price }.first

@@ -44,7 +44,9 @@ class ApplovinRewardedAdapter: NSObject, MediationAdapterProtocol {
         
         let rewarded = MARewardedAd.shared(withAdUnitIdentifier: unitId)
         rewarded.delegate = self
+        
         rewarded.load()
+        self.rewarded = rewarded
     }
     
     func present() {

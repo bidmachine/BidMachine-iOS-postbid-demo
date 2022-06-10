@@ -26,10 +26,10 @@ class NetworDefines: NSObject {
     let bidmachine = NetworConstants("BidMachine", "BidMachineMediationAdapter.BidMachineNework")
     
     @objc public static
-    let applovin = NetworConstants("Applovin_MAX", "BidMachineMediationAdapter.ApplovinNetwork")
+    let applovin = NetworConstants("Applovin_MAX", "ApplovinMediationAdapter.ApplovinNetwork")
     
     @objc public static
-    let admob = NetworConstants("AdMob", "BidMachineMediationAdapter.AdMobdNetwork")
+    let admob = NetworConstants("AdMob", "AdMobMediationAdapter.AdMobdNetwork")
 }
 
 

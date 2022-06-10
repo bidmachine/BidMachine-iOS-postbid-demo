@@ -12,6 +12,8 @@
 		655463AB281C0E9900305D0A /* ABanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 655463AA281C0E9900305D0A /* ABanner.m */; };
 		65808F5F28298CFF007AB10C /* BidMachineMediationModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65808F5E28298CFF007AB10C /* BidMachineMediationModule.framework */; };
 		65808F7E282A449D007AB10C /* libBidMachineMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65808F7D282A449D007AB10C /* libBidMachineMediationAdapter.a */; };
+		6590019128537CCA006404F2 /* libAdMobMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6590019028537CCA006404F2 /* libAdMobMediationAdapter.a */; };
+		6590019328537CCA006404F2 /* libApplovinMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6590019228537CCA006404F2 /* libApplovinMediationAdapter.a */; };
 		659EB60723DB2710004F4550 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 659EB60623DB2710004F4550 /* AppDelegate.m */; };
 		659EB61023DB2710004F4550 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 659EB60E23DB2710004F4550 /* Main.storyboard */; };
 		659EB61223DB2713004F4550 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659EB61123DB2713004F4550 /* Assets.xcassets */; };
@@ -38,6 +40,8 @@
 		65808F98282A8DEB007AB10C /* libApplovinMediationAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libApplovinMediationAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		65808FAB282A9480007AB10C /* libGoogleMediationAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libGoogleMediationAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		65808FC4282C2856007AB10C /* libAdMobMediationAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAdMobMediationAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6590019028537CCA006404F2 /* libAdMobMediationAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAdMobMediationAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6590019228537CCA006404F2 /* libApplovinMediationAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libApplovinMediationAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		659EB60523DB2710004F4550 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		659EB60623DB2710004F4550 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		659EB60F23DB2710004F4550 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -61,6 +65,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6590019128537CCA006404F2 /* libAdMobMediationAdapter.a in Frameworks */,
+				6590019328537CCA006404F2 /* libApplovinMediationAdapter.a in Frameworks */,
 				65808F7E282A449D007AB10C /* libBidMachineMediationAdapter.a in Frameworks */,
 				65808F5F28298CFF007AB10C /* BidMachineMediationModule.framework in Frameworks */,
 				EBC0E3906BD26E4D82C7BB8B /* libPods-BidMachineSample.a in Frameworks */,
@@ -73,6 +79,8 @@
 		3E0E25F59BD2D8B05D374FDD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6590019028537CCA006404F2 /* libAdMobMediationAdapter.a */,
+				6590019228537CCA006404F2 /* libApplovinMediationAdapter.a */,
 				65808FC4282C2856007AB10C /* libAdMobMediationAdapter.a */,
 				65808FAB282A9480007AB10C /* libGoogleMediationAdapter.a */,
 				65808F98282A8DEB007AB10C /* libApplovinMediationAdapter.a */,

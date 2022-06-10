@@ -9,80 +9,66 @@ import UIKit
 import GoogleMobileAds
 import BidMachineMediationModule
 
-class AdMobBannerAdapter: NSObject, MediationAdapter {
-    
-    struct Constants {
-        
-        typealias LineItem = AdMobPostBidNetwork.LineItem
-        
-        /**
-         * Each ad unit is configured in the [AdMob dashboard](https://apps.admob.com).
-         * For each ad unit, you need to set up an eCPM floor and switch off auto refresh.
-         */
-        static let lineItems = [
-            LineItem(price: 1.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 2.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 3.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 4.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 5.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 6.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 7.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 8.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 9.0, unitId: "ca-app-pub-3940256099942544/2934735716"),
-            LineItem(price: 10.0, unitId: "ca-app-pub-3940256099942544/2934735716")
-        ]
-    }
+class AdMobBannerAdapter: NSObject, MediationAdapterProtocol {
     
     weak var loadingDelegate: MediationAdapterLoadingDelegate?
     
-    weak var presentingDelegate: MediationAdapterPresentingDelegate?
+    weak var displayDelegate: MediationAdapterDisplayDelegate?
     
-    var name: String = AdMobPostBidNetwork.Constants.name
+    var adapterParams: MediationAdapterParamsProtocol
     
-    var ready: Bool {
-        return isLoaded
+    var adapterPrice: Double {
+        return CPM
     }
     
-    var price: Double {
-        return CPM
+    var adapterReady: Bool {
+        return isLoaded
     }
     
     private var CPM: Double = 0
     
     private var isLoaded: Bool = false
     
-    private lazy var banner: GADBannerView = {
-        let banner = GADBannerView(adSize: GADAdSize(size: CGSize(width: 320, height: 50), flags: 0))
-        banner.delegate = self
-        banner.translatesAutoresizingMaskIntoConstraints = false
-        return banner
-    }()
+    private var banner: GADBannerView?
     
-    /**
-     * Finds the first [LineItem] whose price is equal to or greater than the price floor and loads it.
-     */
-    func load(_ price: Double) {
-        guard let lineItem = Constants.lineItems.lineItemWithPrice(price) else {
-            self.loadingDelegate.flatMap { $0.failLoad(self, MediationError.noContent("Can't find AdMob line item"))}
+    required init(_ params: MediationParams) {
+        adapterParams = AdMobAdapterParams(params)
+    }
+    
+    func load() {
+        guard
+            let config = self.adapterParams as? AdMobAdapterParams,
+            let lineItems = config.config?.lineItems,
+            let lineItem = lineItems.lineItemWithPrice(config.price)
+        else {
+            loadingDelegate.flatMap { $0.failLoad(self, MediationError.loadingError("Can't find AdMob line item"))}
             return
         }
         
         CPM = lineItem.price
         
+        let banner = GADBannerView(adSize: GADAdSize(size: config.size.bannerSize(), flags: 0))
+        banner.delegate = self
+        banner.translatesAutoresizingMaskIntoConstraints = false
+        
         let request = GADRequest()
         banner.adUnitID = lineItem.unitId
-        banner.rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        banner.rootViewController = config.controller
         banner.load(request)
+
+        self.banner = banner
     }
     
-    func present(_ controller: UIViewController) {
-        guard let view = self.presentingDelegate?.containerView() else {
-            self.presentingDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError("AdMob banner"))}
+    func present() {
+        guard
+            let view = adapterParams.container,
+            let banner = self.banner
+        else {
+            self.displayDelegate.flatMap { $0.didFailPresent(self, MediationError.presentError("AdMob banner"))}
             return;
         }
         
         view.addSubview(banner)
-        banner.rootViewController = controller
         [banner.topAnchor.constraint(equalTo: view.topAnchor),
          banner.leftAnchor.constraint(equalTo: view.leftAnchor),
          banner.rightAnchor.constraint(equalTo: view.rightAnchor),
@@ -102,18 +88,34 @@ extension AdMobBannerAdapter: GADBannerViewDelegate {
     }
     
     func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-        self.presentingDelegate.flatMap { $0.willPresentScreen(self) }
+        self.displayDelegate.flatMap { $0.willPresentScreen(self) }
     }
     
     func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-        self.presentingDelegate.flatMap { $0.didDismissScreen(self) }
+        self.displayDelegate.flatMap { $0.didDismissScreen(self) }
     }
     
     func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-        self.presentingDelegate.flatMap { $0.didTrackImpression(self) }
+        self.displayDelegate.flatMap { $0.didTrackImpression(self) }
     }
     
     func bannerViewDidRecordClick(_ bannerView: GADBannerView) {
-        self.presentingDelegate.flatMap { $0.didTrackInteraction(self) }
+        self.displayDelegate.flatMap { $0.didTrackInteraction(self) }
     }
 }
+
+private extension MediationSize {
+    
+    func bannerSize() -> CGSize {
+        switch self {
+        case .unowned: return CGSize(width: 320, height: 50)
+        case .banner: return CGSize(width: 320, height: 50)
+        case .mrec: return CGSize(width: 300, height: 250)
+        case .leaderboard: return CGSize(width: 728, height: 90)
+        @unknown default:
+            return CGSize(width: 320, height: 50)
+        }
+    }
+}
+
+

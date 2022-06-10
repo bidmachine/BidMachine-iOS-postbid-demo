@@ -44,7 +44,9 @@ class ApplovinInterstitialAdapter: NSObject, MediationAdapterProtocol {
         
         let interstitial = MAInterstitialAd(adUnitIdentifier: unitId)
         interstitial.delegate = self
+        
         interstitial.load()
+        self.interstitial = interstitial
     }
     
     func present() {

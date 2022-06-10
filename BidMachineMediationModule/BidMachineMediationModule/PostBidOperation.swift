@@ -19,10 +19,19 @@ class PostBidOperation: AsyncOperation {
     
     private var mediationTime: Double = 0
     
+    private var mediationType: MediationType
+    
     init(_ request: Request){
         timeout = request.postbidTimeout
-        let wrappers: [MediationAdapterWrapper] = request.adapterParams.compactMap { MediationAdapterWrapper($0, request, .postbid ) }
-        wrapperController = MediationAdapterWrapperController(wrappers)
+        mediationType = request.mediationType
+        
+        if mediationType == .prebid {
+            wrapperController = MediationAdapterWrapperController([])
+        } else {
+            let wrappers: [MediationAdapterWrapper] = request.adapterParams.compactMap { MediationAdapterWrapper($0, request, .postbid ) }
+            wrapperController = MediationAdapterWrapperController(wrappers)
+        }
+        
         requestPrice = request.priceFloor
     }
     
@@ -38,9 +47,16 @@ class PostBidOperation: AsyncOperation {
     }
     
     override func main() {
+        if mediationType == .prebid {
+            self.state = .finished
+            return
+        }
+        
         Logging.log("----- Start postbid block")
         let wrappers:[MediationAdapterWrapper] = self.dependencies.compactMap { $0 as? BidOperation }.flatMap { $0.adaptorWrappers() }
-        let price: Double = wrappers.maxPriceWrapper().flatMap { $0.price } ?? requestPrice
+        var price: Double = wrappers.maxPriceWrapper().flatMap { $0.price } ?? 0
+        price = price > requestPrice ? price : requestPrice
+        
         
         self.mediationTime = Date().timeIntervalSince1970
         self.timer = Timer.scheduledTimer(withTimeInterval: self.timeout, repeats: false, block: { [weak self] _ in

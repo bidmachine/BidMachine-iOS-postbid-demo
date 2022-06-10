@@ -21,6 +21,7 @@ enum MediationPlacement: Int {
 
 @objc (BMMType) public
 enum MediationType: Int {
+    case all
     case prebid
     case postbid
 }
@@ -35,6 +36,8 @@ enum MediationSize: Int {
 
 @objc (BMMAdRequest) public
 protocol AdRequest: AnyObject {
+    
+    @discardableResult func appendMediationType(_ type: MediationType) -> AdRequest
     
     @discardableResult func appendAdSize(_ size: MediationSize) -> AdRequest
     

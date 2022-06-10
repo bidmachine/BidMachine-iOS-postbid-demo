@@ -41,6 +41,8 @@ class Request {
     
     private(set) var placement: MediationPlacement = .unowned
     
+    private(set) var mediationType: MediationType = .all
+    
     private(set) weak var controller: UIViewController?
     
     private(set) weak var container: UIView?
@@ -67,10 +69,18 @@ extension Request {
 
 extension Request : AdRequest {
     
+    @discardableResult func appendMediationType(_ type: MediationType) -> AdRequest {
+        self.mediationType = type
+         return self
+    }
+    
     @discardableResult func appendTimeout(_ timeout: Double, by type: MediationType) -> AdRequest {
         switch type {
         case .prebid: timeout > 0 ? self.prebidTimeout = timeout : nil
         case .postbid: timeout > 0 ? self.postbidTimeout = timeout : nil
+        case .all:
+            self.appendTimeout(timeout, by: .prebid)
+            self.appendTimeout(timeout, by: .postbid)
         }
         return self
     }

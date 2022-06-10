@@ -25,9 +25,11 @@
     [self switchState:BSStateLoading];
     
     [self.banner loadAd:^(id<BMMAdRequest> builder) {
-        [builder appendTimeout:1 by:BMMTypePrebid];
-        [builder appendTimeout:1 by:BMMTypePostbid];
-        [builder appendTimeout:1];
+        [builder appendTimeout:10 by:BMMTypePrebid];
+        [builder appendTimeout:10 by:BMMTypePostbid];
+        [builder appendTimeout:10];
+        [builder appendMediationType:BMMTypeAll];
+        [builder appendPriceFloor:7];
         [builder appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
         [builder appendAdUnit:BMMNetworDefines.applovin.name : @{@"unitId" : @"YOUR_UNIT_ID"}];
         [builder appendAdUnit:BMMNetworDefines.admob.name : @{@"lineItems" : @[@{@"price" : @10, @"unitId" : @"ca-app-pub-3940256099942544/2934735716"},

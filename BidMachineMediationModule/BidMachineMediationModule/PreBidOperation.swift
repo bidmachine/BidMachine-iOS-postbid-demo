@@ -11,19 +11,19 @@ class PreBidOperation: AsyncOperation {
     
     private let wrapperController: MediationAdapterWrapperController
     
-    private var isPriceFloor: Bool = false
-    
     private var timer: Timer?
     
     private let timeout: Double
     
     private var mediationTime: Double = 0
     
+    private var mediationType: MediationType
+    
     init(_ request: Request){
         timeout = request.prebidTimeout
+        mediationType = request.mediationType
         
-        if request.priceFloor > 0 {
-            isPriceFloor = true
+        if mediationType == .postbid {
             wrapperController = MediationAdapterWrapperController([])
         } else {
             let wrappers: [MediationAdapterWrapper] = request.adapterParams.compactMap { MediationAdapterWrapper($0, request, .prebid ) }
@@ -43,7 +43,7 @@ class PreBidOperation: AsyncOperation {
     }
     
     override func main() {
-        if isPriceFloor {
+        if mediationType == .postbid {
             self.state = .finished
             return
         }

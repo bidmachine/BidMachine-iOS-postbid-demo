@@ -176,6 +176,7 @@ private extension AutorefreshBanner {
                 .appendPriceFloor(self.request.priceFloor)
                 .appendTimeout(self.request.prebidTimeout, by: .prebid)
                 .appendTimeout(self.request.postbidTimeout, by: .postbid)
+                .appendMediationType(self.request.mediationType)
                 
             self.request.adapterParams.forEach { pair in
                 builder.appendAdUnit(pair.name, pair.params)

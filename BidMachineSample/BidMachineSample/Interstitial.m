@@ -19,7 +19,10 @@
     self.intestitial = BMMInterstitial.new;
     self.intestitial.delegate = self;
     self.intestitial.controller = self;
-    [self.intestitial loadAd];
+    
+    [self.intestitial loadAd:^(id<BMMAdRequest> builder) {
+        [builder appendAdUnit:@"BidMachine" : @{}];
+    }];
 }
 
 - (void)showAd:(id)sender {

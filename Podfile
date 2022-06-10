@@ -3,9 +3,9 @@ install! 'cocoapods', :deterministic_uuids => false, :warn_for_multiple_pod_sour
 
 workspace 'BidMachineSample.xcworkspace'
 
-$BDMVersion = '~> 1.9.3.0'
+$BDMVersion = '~> 1.9.4.0'
 $AppLovinVersion = '~> 11.3.3'
-$GAMVersion = '~> 9.4.0'
+$GAMVersion = '~> 9.5.0'
 
 def bidmachine
   pod "BDMIABAdapter", $BDMVersion

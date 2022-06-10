@@ -19,7 +19,10 @@
     self.rewarded = BMMRewarded.new;
     self.rewarded.delegate = self;
     self.rewarded.controller = self;
-    [self.rewarded loadAd];
+    
+    [self.rewarded loadAd:^(id<BMMAdRequest> builder) {
+        [builder appendAdUnit:@"BidMachine" : @{}];
+    }];
 }
 
 - (void)showAd:(id)sender {

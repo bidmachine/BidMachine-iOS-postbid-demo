@@ -50,8 +50,8 @@ extension MediationPlacement {
     func adapter() -> MediationAdapterProtocol.Type? {
         switch self {
         case .banner: return BidMachineBannerAdapter.self
-        case .interstitial: return nil
-        case .rewarded: return nil
+        case .interstitial: return BidMachineInterstitialAdapter.self
+        case .rewarded: return BidMachineRewardedAdapter.self
         default: return nil
         }
     }

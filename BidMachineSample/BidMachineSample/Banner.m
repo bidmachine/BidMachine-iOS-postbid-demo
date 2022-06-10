@@ -25,7 +25,6 @@
     [self switchState:BSStateLoading];
     
     [self.banner loadAd:^(id<BMMAdRequest> builder) {
-        [builder appendPriceFloor:0.1];
         [builder appendAdUnit:@"BidMachine" : @{}];
     }];
 }

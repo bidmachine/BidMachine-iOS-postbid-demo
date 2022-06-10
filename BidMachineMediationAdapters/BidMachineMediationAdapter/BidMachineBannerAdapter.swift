@@ -18,7 +18,7 @@ class BidMachineBannerAdapter: NSObject, MediationAdapterProtocol {
     var adapterParams: MediationAdapterParamsProtocol
     
     var adapterPrice: Double {
-        return banner.latestAuctionInfo.flatMap { $0.price }.flatMap { $0.doubleValue } ?? 0
+        return banner.adObject.flatMap { $0.auctionInfo.price }.flatMap { $0.doubleValue } ?? 0
     }
     
     var adapterReady: Bool {
@@ -41,6 +41,7 @@ class BidMachineBannerAdapter: NSObject, MediationAdapterProtocol {
         let request = BDMBannerRequest()
         if let params = adapterParams as? BidMachineAdapterParams {
             request.customParameters = params.config.flatMap { $0.targetingParams }
+            request.adSize = adapterParams.size.bannerSize()
         }
         
         if adapterParams.price > 0 {
@@ -106,4 +107,19 @@ extension BidMachineBannerAdapter: BDMAdEventProducerDelegate {
     func didProduceUserAction(_ producer: BDMAdEventProducer) {
         
     }
+}
+
+private extension MediationSize {
+    
+    func bannerSize() -> BDMBannerAdSize {
+        switch self {
+        case .unowned: return .sizeUnknown
+        case .banner: return .size320x50
+        case .mrec: return .size300x250
+        case .leaderboard: return .size728x90
+        @unknown default:
+            return .sizeUnknown
+        }
+    }
+    
 }

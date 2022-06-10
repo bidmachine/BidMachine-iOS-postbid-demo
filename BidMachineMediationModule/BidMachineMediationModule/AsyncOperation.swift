@@ -17,6 +17,7 @@ class AsyncOperation: Operation {
     }
     
     var state = State.ready {
+        
         willSet {
             willChangeValue(forKey: newValue.keyPath)
             willChangeValue(forKey: state.keyPath)

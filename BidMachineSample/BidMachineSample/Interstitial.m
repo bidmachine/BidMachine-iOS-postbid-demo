@@ -21,6 +21,7 @@
     self.intestitial.controller = self;
     
     [self.intestitial loadAd:^(id<BMMAdRequest> builder) {
+        [builder appendTimeout:1];
         [builder appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
         [builder appendAdUnit:BMMNetworDefines.applovin.name : @{@"unitId" : @"YOUR_UNIT_ID"}];
         [builder appendAdUnit:BMMNetworDefines.admob.name : @{@"lineItems" : @[@{@"price" : @10, @"unitId" : @"ca-app-pub-3940256099942544/4411468910"},

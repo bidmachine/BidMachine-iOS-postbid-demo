@@ -21,6 +21,10 @@ class MediationController {
     
     private(set) var isAvailable: Bool = true
     
+    private var timer: Timer?
+    
+    private var mediationTime: Double = 0
+    
     private lazy var queue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
@@ -48,6 +52,14 @@ class MediationController {
             }
         }
         
+        Logging.log("----- Start mediation")
+        self.mediationTime = Date().timeIntervalSince1970
+        let timeout = request.timeout > 0 ? request.timeout : 20
+        self.timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: { _ in
+            postBidOperation.cancel()
+            preBidOperation.cancel()
+        })
+        
         postBidOperation.addDependency(preBidOperation)
         completionOperation.addDependency(preBidOperation)
         completionOperation.addDependency(postBidOperation)
@@ -60,6 +72,13 @@ class MediationController {
 private extension MediationController {
     
     func complete(with wrapper: MediationAdapterWrapper?) {
+        let time = Date().timeIntervalSince1970 - self.mediationTime
+        Logging.log("----- Finish mediation - \(Double(round(1000 * time))) ms")
+        self.mediationTime = Date().timeIntervalSinceNow
+        
+        self.timer?.invalidate()
+        self.timer = nil
+        
         isAvailable = true
         guard let wrapper = wrapper else {
             self.delegate.flatMap { $0.controllerFailWithError(self, MediationError.noContent("Adapter not loaded")) }

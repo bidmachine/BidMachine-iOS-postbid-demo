@@ -23,6 +23,15 @@ class PreBidOperation: AsyncOperation {
         }
     }
     
+    override func cancel() {
+        if isExecuting {
+            Logging.log("----- ❌❌ Canceled prebid block (TIMEOUT) ❌❌")
+            Logging.log("------------ Loaded adapters: \(self.adaptorWrappers())")
+            Logging.log("----- Complete prebid block")
+        }
+        super.cancel()
+    }
+    
     override func main() {
         if isPriceFloor {
             self.state = .finished
@@ -36,6 +45,7 @@ class PreBidOperation: AsyncOperation {
 extension PreBidOperation: MediationAdapterWrapperControllerDelegate {
     
     func controllerDidComplete(_ controller: MediationAdapterWrapperController) {
+        guard isExecuting else { return }
         Logging.log("------------ Loaded adapters: \(self.adaptorWrappers())")
         Logging.log("----- Complete prebid block")
         self.state = .finished

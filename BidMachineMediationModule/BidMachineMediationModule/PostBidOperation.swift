@@ -19,6 +19,15 @@ class PostBidOperation: AsyncOperation {
         requestPrice = request.priceFloor
     }
     
+    override func cancel() {
+        if isExecuting {
+            Logging.log("----- ❌❌ Canceled postbid block (TIMEOUT) ❌❌")
+            Logging.log("------------ Loaded adapters: \(self.adaptorWrappers())")
+            Logging.log("----- Complete postbid block")
+        }
+        super.cancel()
+    }
+    
     override func main() {
         Logging.log("----- Start postbid block")
         let wrappers:[MediationAdapterWrapper] = self.dependencies.compactMap { $0 as? BidOperation }.flatMap { $0.adaptorWrappers() }
@@ -31,6 +40,7 @@ class PostBidOperation: AsyncOperation {
 extension PostBidOperation: MediationAdapterWrapperControllerDelegate {
     
     func controllerDidComplete(_ controller: MediationAdapterWrapperController) {
+        guard isExecuting else { return }
         Logging.log("------------ Loaded adapters: \(self.adaptorWrappers())")
         Logging.log("----- Complete postbid block")
         self.state = .finished

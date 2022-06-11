@@ -68,7 +68,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 //    [BMMLogging.sharedLog enableMediationLog:YES];
-    [BMMLogging.sharedLog enableAdapterLog:YES];
+//    [BMMLogging.sharedLog enableAdapterLog:YES];
 //    [BMMLogging.sharedLog enableNetworkLog:YES];
 //    [BMMLogging.sharedLog enableAdCallbackLog:YES];
     

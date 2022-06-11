@@ -26,6 +26,12 @@ class Rewarded: NSObject {
     private var wrapper: MediationAdapterWrapper?
     
     private var reward: RewardCompletion?
+    
+    private let uid = UUID().uuidString
+    
+    public override var description: String {
+        return "[Rewarded - \(uid)][\(wrapper?.description ?? "Wo adapter")]"
+    }
 }
 
 extension Rewarded: DisplayAd {
@@ -52,6 +58,8 @@ extension Rewarded: DisplayAd {
             .appendController(controller)
         
         guard mediationController.isAvailable else { return }
+        
+        Logging.log(.callback("Start load - \(self)"))
         mediationController.loadRequest(request)
     }
     
@@ -61,10 +69,14 @@ extension Rewarded: DisplayAd {
     
     @objc public func present(_ reward: @escaping RewardCompletion) {
         guard let wrapper = self.wrapper else {
-            self.delegate.flatMap { $0.adFailToPresent(self, with: MediationError.presentError("Adapter not found")) }
+            let error = MediationError.presentError("Adapter not found")
+            
+            Logging.log(.callback("Fail to present - \(self), error - \(error)"))
+            self.delegate.flatMap { $0.adFailToPresent(self, with: error) }
             return;
         }
         
+        Logging.log(.callback("Start present - \(self)"))
         self.reward = reward
         wrapper.present(self)
     }
@@ -74,10 +86,13 @@ extension Rewarded: MediationControllerDelegate {
     
     func controllerDidLoad(_ controller: MediationController, _ wrapper: MediationAdapterWrapper) {
         self.wrapper = wrapper
+        
+        Logging.log(.callback("Did load - \(self)"))
         self.delegate.flatMap { $0.adDidLoad(self) }
     }
     
     func controllerFailWithError(_ controller: MediationController, _ error: Error) {
+        Logging.log(.callback("Fail to load - \(self), error - \(error)"))
         self.delegate.flatMap { $0.adFailToLoad(self, with:error) }
     }
 }
@@ -85,30 +100,37 @@ extension Rewarded: MediationControllerDelegate {
 extension Rewarded: MediationAdapterWrapperDisplayDelegate {
     
     func willPresentScreen(_ wrapper: MediationAdapterWrapper) {
+        Logging.log(.callback("Will present screen - \(self)"))
         self.delegate.flatMap { $0.adWillPresentScreen(self) }
     }
     
     func didFailPresent(_ wrapper: MediationAdapterWrapper, _ error: Error) {
+        Logging.log(.callback("Fail to present - \(self), error - \(error)"))
         self.delegate.flatMap { $0.adFailToPresent(self, with: error) }
     }
     
     func didDismissScreen(_ wrapper: MediationAdapterWrapper) {
+        Logging.log(.callback("Did dismiss screen - \(self)"))
         self.delegate.flatMap { $0.adDidDismissScreen(self) }
     }
     
     func didTrackImpression(_ wrapper: MediationAdapterWrapper) {
+        Logging.log(.callback("Did track impression - \(self)"))
         self.delegate.flatMap { $0.adDidTrackImpression(self) }
     }
     
     func didTrackInteraction(_ wrapper: MediationAdapterWrapper) {
+        Logging.log(.callback("Did track interaction - \(self)"))
         self.delegate.flatMap { $0.adRecieveUserAction(self) }
     }
     
     func didTrackExpired(_ wrapper: MediationAdapterWrapper) {
+        Logging.log(.callback("Did track expired - \(self)"))
         self.delegate.flatMap { $0.adDidExpired(self) }
     }
     
     func didTrackReward(_ wrapper: MediationAdapterWrapper) {
+        Logging.log(.callback("Did track reward - \(self)"))
         self.reward?()
     }
 }

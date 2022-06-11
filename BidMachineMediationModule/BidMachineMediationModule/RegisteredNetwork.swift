@@ -48,10 +48,12 @@ extension RegisteredNetwork {
 extension RegisteredNetwork: MediationNetworkDelegate {
     
     func didInitialized(_ network: MediationNetworkProtocol) {
+        Logging.log(.network("Did initilize network: \(network.networkName)"))
         self.state = .ready
     }
     
     func didFailInitialized(_ network: MediationNetworkProtocol, _ error: Error) {
+        Logging.log(.network("Did fail to initilize network: \(network.networkName), with error: \(error)"))
         self.state = .idle
     }
 }

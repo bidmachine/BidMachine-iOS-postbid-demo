@@ -55,7 +55,7 @@ class MediationController {
             }
         }
         
-        Logging.log("----- Start mediation")
+        Logging.log(.mediation("----- Start mediation"))
         self.mediationTime = Date().timeIntervalSince1970
         self.timer = Timer.scheduledTimer(withTimeInterval: request.timeout, repeats: false, block: { _ in
             postBidOperation.cancel()
@@ -75,7 +75,7 @@ private extension MediationController {
     
     func complete(with wrapper: MediationAdapterWrapper?) {
         let time = Date().timeIntervalSince1970 - self.mediationTime
-        Logging.log("----- Finish mediation - \(Double(round(1000 * time))) ms")
+        Logging.log(.mediation("----- Finish mediation - \(Double(round(1000 * time))) ms"))
         self.mediationTime = Date().timeIntervalSinceNow
         
         self.timer?.invalidate()

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6551F91428549DB500BC578C /* MediationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6551F91328549DB500BC578C /* MediationConfig.swift */; };
+		6551F9162854B4DD00BC578C /* MediationLoggerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6551F9152854B4DD00BC578C /* MediationLoggerProtocol.swift */; };
 		65808F45282980D1007AB10C /* NetworkRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65808F44282980D1007AB10C /* NetworkRegistration.swift */; };
 		65808F66282995BF007AB10C /* MediationAdapterWrapperController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65808F65282995BF007AB10C /* MediationAdapterWrapperController.swift */; };
 		65808F682829A90D007AB10C /* BidOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65808F672829A90D007AB10C /* BidOperation.swift */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		6551F91328549DB500BC578C /* MediationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediationConfig.swift; sourceTree = "<group>"; };
+		6551F9152854B4DD00BC578C /* MediationLoggerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediationLoggerProtocol.swift; sourceTree = "<group>"; };
 		65808F44282980D1007AB10C /* NetworkRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRegistration.swift; sourceTree = "<group>"; };
 		65808F65282995BF007AB10C /* MediationAdapterWrapperController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediationAdapterWrapperController.swift; sourceTree = "<group>"; };
 		65808F672829A90D007AB10C /* BidOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidOperation.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			children = (
 				65808F87282A62EE007AB10C /* AdProtocol.swift */,
 				6590016D2850A7EB006404F2 /* AdRequestProtocol.swift */,
+				6551F9152854B4DD00BC578C /* MediationLoggerProtocol.swift */,
 				659001782850EB18006404F2 /* MediationNetworkProtocol.swift */,
 				659001712850D53D006404F2 /* MediationAdapterProtocol.swift */,
 				6590017A2850EB5B006404F2 /* MediationNetworkParamsProtocol.swift */,
@@ -263,6 +266,7 @@
 				659001722850D53D006404F2 /* MediationAdapterProtocol.swift in Sources */,
 				65808F88282A62EE007AB10C /* AdProtocol.swift in Sources */,
 				65808F682829A90D007AB10C /* BidOperation.swift in Sources */,
+				6551F9162854B4DD00BC578C /* MediationLoggerProtocol.swift in Sources */,
 				65808F8A282A7829007AB10C /* Logging.swift in Sources */,
 				65B103ED282937640027AF90 /* Rewarded.swift in Sources */,
 				659001872851E8ED006404F2 /* MediationAdapterWrapperDelegate.swift in Sources */,

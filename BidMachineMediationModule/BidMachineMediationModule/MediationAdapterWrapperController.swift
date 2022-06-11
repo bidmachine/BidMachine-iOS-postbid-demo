@@ -47,11 +47,11 @@ private extension MediationAdapterWrapperController {
         let time = Date().timeIntervalSince1970 - self.mediationTime
         
         if (self.isCanceled) {
-            Logging.log("----- ❌❌ Canceled \(type.name) block (TIMEOUT) ❌❌")
+            Logging.log(.mediation("----- ❌❌ Canceled \(type.name) block (TIMEOUT) ❌❌"))
         }
         
-        Logging.log("------------ Loaded adapters: \(loadedWrappers)")
-        Logging.log("----- Complete \(type.name) block - \(Double(round(1000 * time))) ms")
+        Logging.log(.mediation("------------ Loaded adapters: \(loadedWrappers)"))
+        Logging.log(.mediation("----- Complete \(type.name) block - \(Double(round(1000 * time))) ms"))
         self.delegate.flatMap { $0.controllerDidComplete(self) }
         self.delegate = nil
     }
@@ -70,10 +70,10 @@ extension MediationAdapterWrapperController {
         }
         
         self.mediationTime = Date().timeIntervalSince1970
-        Logging.log("----- Start \(type.name) block")
+        Logging.log(.mediation("----- Start \(type.name) block"))
         
-        Logging.log("------- Mediated adapters: \(concurentWrappers)")
-        Logging.log("------- Mediated price: \(price)")
+        Logging.log(.mediation("------- Mediated adapters: \(concurentWrappers)"))
+        Logging.log(.mediation("------- Mediated price: \(price)"))
         
         self.timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: { [weak self] _ in
             self.flatMap { $0.cancel() }

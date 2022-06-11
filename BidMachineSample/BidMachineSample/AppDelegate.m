@@ -67,6 +67,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    [BMMLogging.sharedLog enableMediationLog:YES];
     
     [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.applovin.klass : @{}];
     [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.admob.klass : @{}];

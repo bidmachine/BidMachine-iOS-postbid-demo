@@ -18,19 +18,19 @@ class CompletionOperation: AsyncOperation {
     }
     
     override func main() {
-        Logging.log("----- Start mediation block")
+        Logging.log(.mediation("----- Start mediation block"))
         
         let wrappers:[MediationAdapterWrapper] = self.dependencies.compactMap { $0 as? BidOperation }.flatMap { $0.adaptorWrappers() }
         let wrapper = wrappers.maxPriceWrapper()
         
-        Logging.log("------------ Loaded adapters: \(wrappers)")
+        Logging.log(.mediation("------------ Loaded adapters: \(wrappers)"))
         if let wrapper = wrapper {
-            Logging.log("------------ 🔥🥳 Max price adapter 🥳🔥: \(wrapper) 🎉🎉🎉")
+            Logging.log(.mediation("------------ 🔥🥳 Max price adapter 🥳🔥: \(wrapper) 🎉🎉🎉"))
         } else {
-            Logging.log("------------ ❌❌ Adaptor not loaded (no fill) ❌❌")
+            Logging.log(.mediation("------------ ❌❌ Adaptor not loaded (no fill) ❌❌"))
         }
         
-        Logging.log("----- Complete mediation block")
+        Logging.log(.mediation("----- Complete mediation block"))
         
         completion(wrapper)
         self.state = .finished

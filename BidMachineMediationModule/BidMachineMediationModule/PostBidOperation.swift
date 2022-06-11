@@ -16,11 +16,11 @@ class PostBidOperation: AsyncOperation {
     private let requestPrice: Double
     
     init(_ request: Request){
-        setting = request._prebidConfig
+        setting = request._postbidConfig
         requestPrice = request.priceFloor
         
         let wrappers: [MediationAdapterWrapper] = setting.adapterParams.compactMap { MediationAdapterWrapper($0, request, .postbid ) }
-        wrapperController = MediationAdapterWrapperController(.prebid, setting.timeout, wrappers)
+        wrapperController = MediationAdapterWrapperController(.postbid, setting.timeout, wrappers)
     }
     
     override func cancel() {

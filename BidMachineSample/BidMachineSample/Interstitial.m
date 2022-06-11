@@ -23,6 +23,8 @@
     [self.intestitial loadAd:^(id<BMMAdRequest> builder) {
         [builder appendTimeout:10];
         [builder appendPriceFloor:7];
+        [builder.prebidConfig appendTimeout:1];
+        [builder.postbidConfig appendTimeout:1];
         [builder.prebidConfig appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
         [builder.postbidConfig appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
         [builder.prebidConfig appendAdUnit:BMMNetworDefines.applovin.name : @{@"unitId" : @"YOUR_UNIT_ID"}];

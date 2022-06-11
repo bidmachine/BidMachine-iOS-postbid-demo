@@ -19,13 +19,6 @@ enum MediationPlacement: Int {
     case rewarded
 }
 
-@objc (BMMType) public
-enum MediationType: Int {
-    case all
-    case prebid
-    case postbid
-}
-
 @objc (BMMSize) public
 enum MediationSize: Int {
     case unowned = 0
@@ -34,22 +27,28 @@ enum MediationSize: Int {
     case leaderboard = 90
 }
 
+@objc (BMMMediationConfig) public
+protocol MediationConfig: AnyObject {
+    
+    @discardableResult func appendTimeout(_ timeout: Double) -> MediationConfig
+    
+    @discardableResult func appendAdUnit(_ name: String, _ params: MediationParams) -> MediationConfig
+}
+
 @objc (BMMAdRequest) public
 protocol AdRequest: AnyObject {
     
-    @discardableResult func appendMediationType(_ type: MediationType) -> AdRequest
-    
     @discardableResult func appendAdSize(_ size: MediationSize) -> AdRequest
-    
-    @discardableResult func appendPriceFloor(_ price: Double) -> AdRequest
     
     @discardableResult func appendTimeout(_ timeout: Double) -> AdRequest
     
-    @discardableResult func appendTimeout(_ timeout: Double, by type: MediationType) -> AdRequest
+    @discardableResult func appendPriceFloor(_ price: Double) -> AdRequest
     
-    @discardableResult func appendAdUnit(_ name: String, _ params: MediationParams) -> AdRequest
+    var prebidConfig: MediationConfig { get }
     
-    
+    var postbidConfig: MediationConfig { get }
     
 }
+
+
 

@@ -20,19 +20,41 @@ class MediationAdapterWrapperController {
     
     private var loadedWrappers: [MediationAdapterWrapper] = []
     
-    init(_ wrappers:  [MediationAdapterWrapper]) {
+    private var timer: Timer?
+    
+    private var isCanceled: Bool = false
+    
+    private var mediationTime: Double = 0
+    
+    private let type: MediationType
+    
+    private let timeout: Double
+    
+    init(_ _type: MediationType, _ _timeout: Double, _ wrappers:  [MediationAdapterWrapper]) {
         concurentWrappers = wrappers
+        timeout = _timeout
+        type = _type
     }
 }
 
 private extension MediationAdapterWrapperController {
     
     func notifyMediationCompleteIfNeeded() {
-        if (self.concurentWrappers.count == 0) {
-            self.delegate.flatMap { $0.controllerDidComplete(self) }
+        guard (isCanceled == true || self.concurentWrappers.count == 0) && delegate != nil else {
+            return
         }
+        
+        let time = Date().timeIntervalSince1970 - self.mediationTime
+        
+        if (self.isCanceled) {
+            Logging.log("----- ❌❌ Canceled \(type.name) block (TIMEOUT) ❌❌")
+        }
+        
+        Logging.log("------------ Loaded adapters: \(loadedWrappers)")
+        Logging.log("----- Complete \(type.name) block - \(Double(round(1000 * time))) ms")
+        self.delegate.flatMap { $0.controllerDidComplete(self) }
+        self.delegate = nil
     }
-    
 }
 
 extension MediationAdapterWrapperController {
@@ -42,12 +64,31 @@ extension MediationAdapterWrapperController {
     }
     
     func load(_ delegate: MediationAdapterWrapperControllerDelegate, _ price: Double = 0) {
+        guard concurentWrappers.count > 0 else {
+            self.delegate.flatMap { $0.controllerDidComplete(self) }
+            return
+        }
+        
+        self.mediationTime = Date().timeIntervalSince1970
+        Logging.log("----- Start \(type.name) block")
+        
         Logging.log("------- Mediated adapters: \(concurentWrappers)")
         Logging.log("------- Mediated price: \(price)")
         
+        self.timer = Timer.scheduledTimer(withTimeInterval: timeout, repeats: false, block: { [weak self] _ in
+            self.flatMap { $0.cancel() }
+        })
+        
         self.delegate = delegate
-        self.notifyMediationCompleteIfNeeded()
         concurentWrappers.forEach { $0.load(price, self) }
+    }
+    
+    func cancel() {
+        self.timer?.invalidate()
+        self.timer = nil
+        
+        isCanceled = true
+        self.notifyMediationCompleteIfNeeded()
     }
 }
 
@@ -65,3 +106,12 @@ extension MediationAdapterWrapperController: MediationAdapterWrapperLoadingDeleg
     }
 }
 
+fileprivate extension MediationType {
+    
+    var name: String {
+        switch self {
+        case .prebid: return "Prebid"
+        case .postbid: return "Postbid"
+        }
+    }
+}

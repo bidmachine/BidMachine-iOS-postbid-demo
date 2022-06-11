@@ -174,12 +174,15 @@ private extension AutorefreshBanner {
                 .appendAdSize(self.request.size)
                 .appendTimeout(self.request.timeout)
                 .appendPriceFloor(self.request.priceFloor)
-                .appendTimeout(self.request.prebidTimeout, by: .prebid)
-                .appendTimeout(self.request.postbidTimeout, by: .postbid)
-                .appendMediationType(self.request.mediationType)
-                
-            self.request.adapterParams.forEach { pair in
-                builder.appendAdUnit(pair.name, pair.params)
+            
+            builder.prebidConfig.appendTimeout(self.request._prebidConfig.timeout)
+            builder.postbidConfig.appendTimeout(self.request._postbidConfig.timeout)
+            
+            self.request._prebidConfig.adapterParams.forEach { pair in
+                builder.prebidConfig.appendAdUnit(pair.name, pair.params)
+            }
+            self.request._postbidConfig.adapterParams.forEach { pair in
+                builder.postbidConfig.appendAdUnit(pair.name, pair.params)
             }
         }
     }

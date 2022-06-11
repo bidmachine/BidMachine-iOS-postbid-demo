@@ -8,23 +8,6 @@
 import Foundation
 import UIKit
 
-enum MediationPair {
-    
-    case pair(String, MediationParams)
-    
-    var name: String {
-        switch self {
-        case .pair(let name,_): return name
-        }
-    }
-    
-    var params: MediationParams {
-        switch self {
-        case .pair(_, let params): return params
-        }
-    }
-}
-
 class Request {
     
     private(set) var size: MediationSize = .unowned
@@ -33,19 +16,15 @@ class Request {
     
     private(set) var timeout: Double = 20
     
-    private(set) var prebidTimeout: Double = 20
-    
-    private(set) var postbidTimeout: Double = 20
-    
-    private(set) var adapterParams: [MediationPair] = []
-    
     private(set) var placement: MediationPlacement = .unowned
-    
-    private(set) var mediationType: MediationType = .all
     
     private(set) weak var controller: UIViewController?
     
     private(set) weak var container: UIView?
+    
+    private(set) var _prebidConfig = MediationSettings()
+    
+    private(set) var _postbidConfig = MediationSettings()
     
 }
 
@@ -69,21 +48,14 @@ extension Request {
 
 extension Request : AdRequest {
     
-    @discardableResult func appendMediationType(_ type: MediationType) -> AdRequest {
-        self.mediationType = type
-         return self
+    var prebidConfig: MediationConfig {
+        return self._prebidConfig
     }
     
-    @discardableResult func appendTimeout(_ timeout: Double, by type: MediationType) -> AdRequest {
-        switch type {
-        case .prebid: timeout > 0 ? self.prebidTimeout = timeout : nil
-        case .postbid: timeout > 0 ? self.postbidTimeout = timeout : nil
-        case .all:
-            self.appendTimeout(timeout, by: .prebid)
-            self.appendTimeout(timeout, by: .postbid)
-        }
-        return self
+    var postbidConfig: MediationConfig {
+        return self._postbidConfig
     }
+    
     
     @discardableResult func appendPriceFloor(_ price: Double) -> AdRequest {
         self.priceFloor = price
@@ -94,11 +66,6 @@ extension Request : AdRequest {
         if timeout > 0 {
             self.timeout = timeout
         }
-        return self
-    }
-    
-    @discardableResult func appendAdUnit(_ name: String, _ params: MediationParams) -> AdRequest {
-        self.adapterParams.append(.pair(name, params))
         return self
     }
     

@@ -88,6 +88,8 @@ extension MediationAdapterWrapperController {
         self.timer = nil
         
         isCanceled = true
+        
+        self.concurentWrappers.forEach { $0.invalidate() }
         self.notifyMediationCompleteIfNeeded()
     }
 }

@@ -67,10 +67,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [BMMLogging.sharedLog enableMediationLog:YES];
+//    [BMMLogging.sharedLog enableMediationLog:YES];
     [BMMLogging.sharedLog enableAdapterLog:YES];
-    [BMMLogging.sharedLog enableNetworkLog:YES];
-    [BMMLogging.sharedLog enableAdCallbackLog:YES];
+//    [BMMLogging.sharedLog enableNetworkLog:YES];
+//    [BMMLogging.sharedLog enableAdCallbackLog:YES];
     
     [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.applovin.klass : @{}];
     [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.admob.klass : @{}];

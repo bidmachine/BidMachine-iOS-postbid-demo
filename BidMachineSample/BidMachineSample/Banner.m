@@ -25,6 +25,7 @@
     [self switchState:BSStateLoading];
     
     [self.banner loadAd:^(id<BMMAdRequest> builder) {
+        [builder appendAdSize:BMMSizeBanner];
         [builder appendTimeout:10];
         [builder appendPriceFloor:7];
         [builder.prebidConfig appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];

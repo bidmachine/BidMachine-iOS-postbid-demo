@@ -1,44 +1,22 @@
 platform :ios, '10.0'
 install! 'cocoapods', :deterministic_uuids => false, :warn_for_multiple_pod_sources => false
 
+source 'https://github.com/appodeal/CocoaPods.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
 workspace 'BidMachineSample.xcworkspace'
 
-$BDMVersion = '~> 1.9.4.0'
-$AppLovinVersion = '~> 11.3.3'
-$GAMVersion = '~> 9.5.0'
+$ModuleVersion = '~> 0.0.1'
 
-def bidmachine
-  pod "BDMIABAdapter", $BDMVersion
-end
-
-def applovin 
-  pod 'AppLovinSDK', $AppLovinVersion
-end
-
-def google 
-  pod 'Google-Mobile-Ads-SDK', $GAMVersion
+def bidmachine_module
+  pod "BidMachineMediationModule/BidMachine", $ModuleVersion
+  pod "BidMachineMediationModule/Applovin", $ModuleVersion
+  pod "BidMachineMediationModule/AdMob", $ModuleVersion
 end
 
 target 'BidMachineSample' do
 project 'BidMachineSample/BidMachineSample.xcodeproj'
-  applovin
-  bidmachine
-  google
-end
-
-target 'BidMachineMediationAdapter' do
-  project 'BidMachineMediationAdapters/BidMachineMediationAdapters.xcodeproj'
-  bidmachine
-end
-
-target 'ApplovinMediationAdapter' do
-  project 'BidMachineMediationAdapters/BidMachineMediationAdapters.xcodeproj'
-  applovin
-end
-
-target 'AdMobMediationAdapter' do
-  project 'BidMachineMediationAdapters/BidMachineMediationAdapters.xcodeproj'
-  google
+  bidmachine_module
 end
 
 

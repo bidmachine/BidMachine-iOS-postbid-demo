@@ -69,15 +69,12 @@
 
 //    [BMMLogging.sharedLog enableMediationLog:YES];
 //    [BMMLogging.sharedLog enableAdapterLog:YES];
-//    [BMMLogging.sharedLog enableNetworkLog:YES];
+    [BMMLogging.sharedLog enableNetworkLog:YES];
 //    [BMMLogging.sharedLog enableAdCallbackLog:YES];
     
     [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.applovin.klass : @{}];
     [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.admob.klass : @{}];
-    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.bidmachine.klass : @{@"sourceId" : @"1",
-                                                                                         @"testMode" : @"false",
-                                                                                         @"storeId"  : @"1111",
-                                                                                       }];
+    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.bidmachine.klass : @{}];
     
     return YES;
 }

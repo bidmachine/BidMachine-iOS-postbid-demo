@@ -10,10 +10,6 @@
 		374B363A25E68462005F1499 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374B363925E68462005F1499 /* Empty.swift */; };
 		37F5DBC42754CFA6003A98EF /* Banner.m in Sources */ = {isa = PBXBuildFile; fileRef = 37F5DBC32754CFA5003A98EF /* Banner.m */; };
 		655463AB281C0E9900305D0A /* ABanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 655463AA281C0E9900305D0A /* ABanner.m */; };
-		65808F5F28298CFF007AB10C /* BidMachineMediationModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65808F5E28298CFF007AB10C /* BidMachineMediationModule.framework */; };
-		65808F7E282A449D007AB10C /* libBidMachineMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65808F7D282A449D007AB10C /* libBidMachineMediationAdapter.a */; };
-		6590019128537CCA006404F2 /* libAdMobMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6590019028537CCA006404F2 /* libAdMobMediationAdapter.a */; };
-		6590019328537CCA006404F2 /* libApplovinMediationAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6590019228537CCA006404F2 /* libApplovinMediationAdapter.a */; };
 		659EB60723DB2710004F4550 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 659EB60623DB2710004F4550 /* AppDelegate.m */; };
 		659EB61023DB2710004F4550 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 659EB60E23DB2710004F4550 /* Main.storyboard */; };
 		659EB61223DB2713004F4550 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659EB61123DB2713004F4550 /* Assets.xcassets */; };
@@ -65,10 +61,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6590019128537CCA006404F2 /* libAdMobMediationAdapter.a in Frameworks */,
-				6590019328537CCA006404F2 /* libApplovinMediationAdapter.a in Frameworks */,
-				65808F7E282A449D007AB10C /* libBidMachineMediationAdapter.a in Frameworks */,
-				65808F5F28298CFF007AB10C /* BidMachineMediationModule.framework in Frameworks */,
 				EBC0E3906BD26E4D82C7BB8B /* libPods-BidMachineSample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

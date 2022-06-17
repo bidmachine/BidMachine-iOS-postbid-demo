@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:BidMachineMediationAdapters/BidMachineMediationAdapters.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:BidMachineMediationModule/BidMachineMediationModule.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:BidMachineSample/BidMachineSample.xcodeproj">
    </FileRef>
    <FileRef

@@ -67,19 +67,35 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-//    [BMMLogging.sharedLog enableMediationLog:YES];
-//    [BMMLogging.sharedLog enableAdapterLog:YES];
-//    [BMMLogging.sharedLog enableNetworkLog:YES];
-//    [BMMLogging.sharedLog enableAdCallbackLog:YES];
+    [BMMLogging.sharedLog enableMediationLog:YES];
+    [BMMLogging.sharedLog enableAdapterLog:YES];
+    [BMMLogging.sharedLog enableNetworkLog:YES];
+    [BMMLogging.sharedLog enableAdCallbackLog:YES];
     
-    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.applovin.klass : @{}];
-    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.admob.klass : @{}];
-    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.bidmachine.klass : @{@"sourceId" : @"1",
-                                                                                         @"testMode" : @"false",
-                                                                                         @"storeId"  : @"1111",
-                                                                                       }];
+    BDMSdkConfiguration *configuration = BDMSdkConfiguration.new;
+    BDMTargeting *targeting = BDMTargeting.new;
+    
+    targeting.storeId = @"1111";
+    configuration.testMode = false;
+    configuration.targeting = targeting;
+    
+    __weak typeof(self) weakSelf = self;
+    [BDMSdk.sharedSdk startSessionWithSellerID:@"1" configuration:configuration completion:^{
+        ALSdk.shared.mediationProvider = ALMediationProviderMAX;
+        [ALSdk.shared initializeSdk];
+        
+        [GADMobileAds.sharedInstance startWithCompletionHandler:^(GADInitializationStatus * _Nonnull status) {
+            [weakSelf registerNetworks];
+        }];
+    }];
     
     return YES;
+}
+
+- (void)registerNetworks {
+    [BMMNetworkRegistration.shared registerNetwork:BMMNetworkDefines.applovin.klass : @{}];
+    [BMMNetworkRegistration.shared registerNetwork:BMMNetworkDefines.admob.klass : @{}];
+    [BMMNetworkRegistration.shared registerNetwork:BMMNetworkDefines.bidmachine.klass : @{}];
 }
 
 @end

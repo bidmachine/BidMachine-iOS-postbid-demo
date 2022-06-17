@@ -36,7 +36,7 @@ Showing an ad object is performed in 4 stages:
 1) [PreBid block](#prebid-block) - Loading ad objects
 2) [PostBid block](#postbid-block) - Loading  ad objects based on Prebid block max price result
 3) [Mediation block](#mediation-block) - The choice of the maximum price occurs between all loaded advertising objects
-4) [Showing the max price loaded ad object](#showing-the-loaded-ad-object)
+4) [Showing the max price loaded ad object](https://github.com/bidmachine/BidMachine-iOS-Mediation-SDK#presenting)
 
 The operation of each block is described below.
 

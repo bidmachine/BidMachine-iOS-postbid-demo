@@ -23,10 +23,10 @@
     [self.rewarded loadAd:^(id<BMMAdRequest> builder) {
         [builder appendTimeout:10];
         [builder appendPriceFloor:7];
-        [builder.prebidConfig appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
-        [builder.postbidConfig appendAdUnit:BMMNetworDefines.bidmachine.name : @{}];
-        [builder.prebidConfig appendAdUnit:BMMNetworDefines.applovin.name : @{@"unitId" : @"YOUR_UNIT_ID"}];
-        [builder.postbidConfig appendAdUnit:BMMNetworDefines.admob.name : @{@"lineItems" :
+        [builder.prebidConfig appendAdUnit:BMMNetworkDefines.bidmachine.name : @{}];
+        [builder.postbidConfig appendAdUnit:BMMNetworkDefines.bidmachine.name : @{}];
+        [builder.prebidConfig appendAdUnit:BMMNetworkDefines.applovin.name : @{@"unitId" : @"YOUR_UNIT_ID"}];
+        [builder.postbidConfig appendAdUnit:BMMNetworkDefines.admob.name : @{@"lineItems" :
                                                                                 @[@{@"price" : @10, @"unitId" : @"ca-app-pub-3940256099942544/1712485313"},
                                                                                   @{@"price" : @9, @"unitId" : @"ca-app-pub-3940256099942544/1712485313"},
                                                                                   @{@"price" : @8, @"unitId" : @"ca-app-pub-3940256099942544/1712485313"},

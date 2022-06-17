@@ -2,11 +2,6 @@
 ![BidMachine iOS](https://appodeal-ios.s3-us-west-1.amazonaws.com/docs/bidmachine.png)
 # BidMachine-iOS-postbid-demo
 
-
-[<img src="https://img.shields.io/badge/SDK%20Version-1.9.3-brightgreen">](https://docs.bidmachine.io/docs/in-house-mediation-1)
-[<img src="https://img.shields.io/badge/Applovin%20MAX%20Version-11.3.3-blue">](https://dash.applovin.com/documentation/mediation/ios/getting-started/integration)
-[<img src="https://img.shields.io/badge/AdMob%20Version-9.4.0-blue">](https://developers.google.com/admob/ios/quick-start)
-
 * [Overview](#post-bid-overview)
 * [PreBid Block](#prebid-block)
     + [Mediated Ad Networks](#prebid-mediated-ad-networks)
@@ -17,6 +12,30 @@
     + [AutorefreshBanner](#autorefresh-banner)
     + [Interstitial](#interstitial)
     + [Rewarded](#rewarded)
+
+## Get started
+
+In order to use the module, you need to add the following specs to the Podfile
+
+``` ruby
+$ModuleVersion = '~> 0.0.1'
+
+def bidmachine_module
+  pod "BidMachineMediationModule/BidMachine", $ModuleVersion
+  pod "BidMachineMediationModule/Applovin", $ModuleVersion
+  pod "BidMachineMediationModule/AdMob", $ModuleVersion
+end
+
+target 'BidMachineSample' do
+project 'BidMachineSample/BidMachineSample.xcodeproj'
+  bidmachine_module
+end
+```
+
+## Initialize module
+
+https://github.com/bidmachine/BidMachine-iOS-Mediation-SDK/tree/develop#initialization
+
 
 ## Post Bid Overview
 
@@ -46,11 +65,11 @@ The result of the prebid block can be seen in the console
 #### PreBid Mediated Ad Networks
 
 | Ad Network  | Adapter                                                                                                   | Type Class                                                                                                                  |
-|-------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+|:------------|:----------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------|
 | BidMachine  | [BidMachinePreBidNetwork](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineNetwork.swift) | [BidMachineBannerAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineBannerAdapter.swift)             |
 |             |                                                                                                           | [BidMachineInterstitialAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineInterstitialAdapter.swift) |
 |             |                                                                                                           | [BidMachineRewardedAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineRewardedAdapter.swift)         |
-| ApplovinMAX | [ApplovinPreBidNetwork](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinNetwork.swift) | [ApplovinBannerAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinBannerAdapter.swift)                   |
+| ApplovinMAX | [ApplovinPreBidNetwork](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinNetwork.swift)       | [ApplovinBannerAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinBannerAdapter.swift)                   |
 |             |                                                                                                           | [ApplovinInterstitialAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinInterstitialAdapter.swift)       |
 |             |                                                                                                           | [ApplovinRewardedAdapter](BidMachineMediationAdapters/ApplovinMediationAdapter/ApplovinRewardedAdapter.swift)               |
 
@@ -100,7 +119,7 @@ The result of the postbid block can be seen in the console
 #### PostBid Mediated Ad Networks
 
 | Ad Network | Adapter                                                                                                    | Type Class                                                                                                                  |
-|------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+|:-----------|:-----------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------|
 | BidMachine | [BidMachinePostBidNetwork](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineNetwork.swift) | [BidMachineBannerAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineBannerAdapter.swift)             |
 |            |                                                                                                            | [BidMachineInterstitialAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineInterstitialAdapter.swift) |
 |            |                                                                                                            | [BidMachineRewardedAdapter](BidMachineMediationAdapters/BidMachineMediationAdapter/BidMachineRewardedAdapter.swift)         |

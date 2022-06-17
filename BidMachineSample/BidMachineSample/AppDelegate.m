@@ -93,9 +93,9 @@
 }
 
 - (void)registerNetworks {
-    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.applovin.klass : @{}];
-    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.admob.klass : @{}];
-    [BMMNetworkRegistration.shared registerNetwork:BMMNetworDefines.bidmachine.klass : @{}];
+    [BMMNetworkRegistration.shared registerNetwork:BMMNetworkDefines.applovin.klass : @{}];
+    [BMMNetworkRegistration.shared registerNetwork:BMMNetworkDefines.admob.klass : @{}];
+    [BMMNetworkRegistration.shared registerNetwork:BMMNetworkDefines.bidmachine.klass : @{}];
 }
 
 @end

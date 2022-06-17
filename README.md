@@ -10,7 +10,7 @@
 
 ## Get started
 
-In order to use the module, you need to add the following specs to the Podfile
+In order to use the [module](https://github.com/bidmachine/BidMachine-iOS-Mediation-SDK), you need to add the following specs to the Podfile
 
 ``` ruby
 $ModuleVersion = '~> 0.0.1'

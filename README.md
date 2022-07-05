@@ -10,7 +10,7 @@
 
 ## Get started
 
-In order to use the [module](https://github.com/bidmachine/BidMachine-iOS-Mediation-SDK), you need to add the following specs to the Podfile
+In order to use the [module](https://github.com/bidmachine/BidMachine-iOS-Bidding-Manager-SDK), you need to add the following specs to the Podfile
 
 ``` ruby
 $ModuleVersion = '~> 0.0.1'
@@ -27,7 +27,7 @@ project 'BidMachineSample/BidMachineSample.xcodeproj'
 end
 ```
 
-[To initialize the module, use the instruction](https://github.com/bidmachine/BidMachine-iOS-Mediation-SDK#initialization)
+[To initialize the module, use the instruction](https://github.com/bidmachine/BidMachine-iOS-Bidding-Manager-SDK#initialization)
 
 ## Post Bid Overview
 
@@ -36,11 +36,11 @@ Showing an ad object is performed in 4 stages:
 1) [PreBid block](#prebid-block) - Loading ad objects
 2) [PostBid block](#postbid-block) - Loading  ad objects based on Prebid block max price result
 3) [Mediation block](#mediation-block) - The choice of the maximum price occurs between all loaded advertising objects
-4) [Showing the max price loaded ad object](https://github.com/bidmachine/BidMachine-iOS-Mediation-SDK#presenting)
+4) [Showing the max price loaded ad object](https://github.com/bidmachine/BidMachine-iOS-Bidding-Manager-SDK#presenting)
 
 The operation of each block is described below.
 
-[AdNetwork support for the each mediation block](https://github.com/bidmachine/BidMachine-iOS-Mediation-SDK#adaptors)
+[AdNetwork support for the each mediation block](https://github.com/bidmachine/BidMachine-iOS-Bidding-Manager-SDK#adaptors)
 
 ## PreBid Block
 
